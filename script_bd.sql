@@ -49,3 +49,6 @@ CREATE TABLE pacientes (
   idginecologa INTEGER NOT NULL,
   PRIMARY KEY (idpaciente)
 );
+//FK de "GINECOLOGAS" a "PACIENTES"
+ALTER TABLE pacientes
+ADD FOREIGN KEY (idginecologa) REFERENCES ginecologas(idginecologa);
