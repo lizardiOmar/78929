@@ -1,3 +1,4 @@
+//Tabla "GINECOLOGAS"
 CREATE TABLE ginecologas (
   idginecologa SERIAL NOT NULL,
   nombres varchar(30) NOT NULL,
@@ -10,3 +11,6 @@ CREATE TABLE ginecologas (
   clave varchar(45) NOT NULL,
   PRIMARY KEY (idginecologa)
 );
+//USUARIO DE PRUEBA
+INSERT INTO ginecologas (nombres,apellidoPaterno, apellidoMaterno,cedulaProfesional,cedulaEspecialista,telefono,correo,clave) 
+VALUES ('Esbeydi','Villa', 'Juan','1234567890','1234567890','1234567890','esbeydi@correo.com','ZXNiZXlkaTEyMw=='); 
