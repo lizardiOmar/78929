@@ -29,4 +29,23 @@ CREATE TABLE citas (
 //FK de "GINECOLOGAS" a "CITAS"
 ALTER TABLE citas
 ADD FOREIGN KEY (idginecologa) REFERENCES ginecologas(idginecologa);
-
+//Tabla "PACIENTES"
+CREATE TABLE pacientes (
+  idPaciente SERIAL NOT NULL,
+  nombres varchar(30) NOT NULL,
+  apellidoPaterno varchar(40) NOT NULL,
+  apellidoMaterno varchar(40) NOT NULL,
+  edad varchar(3) NOT NULL,
+  diaN varchar(2) NOT NULL,
+  mesN varchar(2) NOT NULL,
+  anioN varchar(4) NOT NULL,
+  estadoCivil varchar(55) NOT NULL,
+  ocupacion varchar(55) NOT NULL,
+  escolaridad varchar(55) NOT NULL,
+  ciudadDeNacimiento varchar(55) NOT NULL,
+  entidadDeNacimiento varchar(55) NOT NULL,
+  telefono varchar(16) NOT NULL,
+  correo varchar(55) NOT NULL,
+  idginecologa INTEGER NOT NULL,
+  PRIMARY KEY (idpaciente)
+);
