@@ -52,3 +52,17 @@ CREATE TABLE pacientes (
 //FK de "GINECOLOGAS" a "PACIENTES"
 ALTER TABLE pacientes
 ADD FOREIGN KEY (idginecologa) REFERENCES ginecologas(idginecologa);
+//Tabla "DOMICILIOS"
+CREATE TABLE domicilios (
+  idDomicilio SERIAL NOT NULL,
+  municipio varchar(55) NOT NULL,
+  colonia varchar(55) NOT NULL,
+  calle varchar(55) NOT NULL,
+  numero varchar(5) NOT NULL,
+  CP varchar(10) NOT NULL,
+  idPaciente INTEGER NOT NULL,
+  PRIMARY KEY (idDomicilio)
+);
+//FK de "PACIENTES" a "DOMICILIOS"
+ALTER TABLE domicilios
+ADD FOREIGN KEY (idPaciente) REFERENCES pacientes(idPaciente);
