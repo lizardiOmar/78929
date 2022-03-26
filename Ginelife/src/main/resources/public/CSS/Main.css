@@ -1,0 +1,71 @@
+body{
+    background-color: #ffcccc;
+    background-image: url("../IMG/Logo.png");
+    background-repeat: no-repeat;
+    background-size: 200px 200px;
+    text-align: center;
+    color: #996600;
+}
+#titulo{
+    font-size: 75px;
+}
+#direccion{
+    width: 100%;
+    position: absolute;
+    bottom: 0px;
+    background-color:#ff8080;
+    color: #ffffff;
+}
+button{
+    border: none;
+    border-radius: 20px;
+    background-color:#ff8080;
+    color:#ffffff;
+    font-size: 20px;
+    width:fit-content;
+    padding: 1%;
+}
+button:hover{
+    box-shadow: 2px 2px 2px #ffcccc;
+    text-shadow: 2px 2px #ffcccc;
+}
+@media only screen and (max-width: 1200px ) {
+    #direccion{
+        display:none;
+    }
+    body{
+        background-color: #ffcccc;
+        background-image: url("../IMG/Logo.png");
+        background-repeat: no-repeat;
+        background-size: 200px 200px;
+        text-align: center;
+        color: #996600;
+        font-size: 15px;
+    }
+    #titulo{
+        font-size: 125px;
+    }
+    h3{
+        font-size: 40px;
+    }
+    h5{
+        font-size: 30px;
+    }
+    #fecha{
+        font-size: 20px;
+    }
+    button{
+        border: none;
+        border-radius: 20px;
+        background-color:#ff8080;
+        color:#ffffff;
+        width: 100%;
+        padding: 1%;
+        margin-bottom: 10px;
+        font-size: 40px;
+    }
+    button:hover{
+        box-shadow: 2px 2px 2px #ffcccc;
+        text-shadow: 2px 2px #ffcccc;
+    }
+}

@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset='utf-8'>
+        <title>La base de datos de GINELIFE está en mantenimiento</title>
+        <meta name='Mantenimiento' content='width=device-width, initial-scale=1'>
+        <link rel="icon" type="image/png" href="public/IMG/favicon-256x256.png">
+        <link rel='stylesheet' type='text/css' media='screen' href='public/CSS/Login.css'>
+        </head>
+    <body>
+        <img src="public/IMG/Logo.png" alt="Ginelife" id="logo">
+        <h2 id="titulo_form">La base de datos del sistema se encuentra en mantenimiento</h2>
+        <p id="msg">Intentelo de nuevo en un par de horas.</p>
+        <div id="direccion">
+            Bosques de África # 144-A<br>
+            Col. Bosques de Aragón<br>
+            Nezahualcóyotl, Estado de México
+        </div>
+    </body>
+</html>
