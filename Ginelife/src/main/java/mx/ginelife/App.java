@@ -36,37 +36,32 @@ public class App {
                 //Prueba de conexión a la BD
                 Connection c=Conexion.getConexion();
                 String vista="/mantenimiento.vm";
+                req.session().removeAttribute("correo");
+                req.session(false);
                 if(c!=null){
                     vista="/login.vm";
                     c.close();
                 }
                 return new ModelAndView(model, vista);
             }, new VelocityTemplateEngine());
-            post("/login", (req, res) -> {
+
+            post("login", (req, res) -> {
                 Gson gson=new Gson();
                 Ginecologa aux = gson.fromJson(req.body(), Ginecologa.class);
                 String correo=aux.getCorreo();
                 String clave=aux.getClave();
-    
                 if (GinecologaDAO.acceso(correo, clave)) {
+                    req.session().attribute("correo", correo);
                     return "SI";
-                } else {
-                    return "NO";
-                }
+                } 
+                return "NO";
+                
             });
-            get("/ginelife", (req, res) -> {
-                String correo64 = req.queryParams("c");
-                byte[] decoder = Base64.getDecoder().decode(correo64);
-                String correo = new String(decoder);
-                Ginecologa doctora=GinecologaDAO.getDoctoraByCorreo(correo);
-                /*
-                List <Cita> citas=CitasDAO.getCitasByDoctora(doctora.getIdDoctora());
-                if(citas!=null){
-                    model.put("citas", citas);
-                }else{
-                    model.put("citasNo", "No hay citas registradas.");
-                }
-                */
+
+            get("ginelife", (req, res) -> {
+                req.session(true);
+                //System.out.println("CORREO SESION"+req.session().attribute("correo"));
+                Ginecologa doctora=GinecologaDAO.getDoctoraByCorreo(req.session().attribute("correo"));
                 if(doctora!=null){
                     model.put("nombres", doctora.getNombres());
                     model.put("apellidos", doctora.getApellidoPaterno()+" "+doctora.getApellidoMaterno());

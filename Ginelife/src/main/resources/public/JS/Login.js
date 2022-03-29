@@ -13,10 +13,10 @@ function acceder(e){
             })
             .then(function (response) {
                 console.log(response.data);
-                if(response.data==='SI'){
+                if(response.data!='NO'){
                     txtMsg.innerHTML="Acceso correcto.";
                     alert('Redirigiendo.');
-                    window.location.href="/ginelife?c="+btoa(inputCorreo.value);
+                    window.location.href="/ginelife";
                 }else{
                     txtMsg.innerHTML="Acceso incorrecto.";
                 }
