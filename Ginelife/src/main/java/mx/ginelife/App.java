@@ -29,22 +29,6 @@ public class App {
         staticFiles.location("/");
         init();
         path("/", () -> {
-            
-            Map<String, Object> model = new HashMap<>();
-
-            get("", (req, res) -> {
-                //Prueba de conexión a la BD
-                Connection c=Conexion.getConexion();
-                String vista="/mantenimiento.vm";
-                req.session().removeAttribute("correo");
-                req.session(false);
-                if(c!=null){
-                    vista="/login.vm";
-                    c.close();
-                }
-                return new ModelAndView(model, vista);
-            }, new VelocityTemplateEngine());
-
             post("login", (req, res) -> {
                 Gson gson=new Gson();
                 Ginecologa aux = gson.fromJson(req.body(), Ginecologa.class);
@@ -52,15 +36,32 @@ public class App {
                 String clave=aux.getClave();
                 if (GinecologaDAO.acceso(correo, clave)) {
                     req.session().attribute("correo", correo);
+                    req.session().maxInactiveInterval(1800);
+                    req.session(true);
                     return "SI";
                 } 
                 return "NO";
                 
             });
-
+            post("logout", (req, res)->{
+                req.session().removeAttribute("correo");
+                if(req.session().attribute("correo")==null){
+                    req.session(false);
+                    return "EXIT";
+                }else{
+                    return "ERROR";
+                }
+            });
+            before("ginelife", (req, res) ->{
+                if(req.session().attribute("correo")==null){
+                    System.out.println("Sesión no válida");
+                }else{
+                    System.out.println("Sesión: "+req.session().attribute("correo"));
+                }
+            });
             get("ginelife", (req, res) -> {
-                req.session(true);
                 //System.out.println("CORREO SESION"+req.session().attribute("correo"));
+                Map<String, Object> model = new HashMap<>();
                 Ginecologa doctora=GinecologaDAO.getDoctoraByCorreo(req.session().attribute("correo"));
                 if(doctora!=null){
                     model.put("nombres", doctora.getNombres());
@@ -72,9 +73,18 @@ public class App {
                 }
                 return new ModelAndView(model, "/main.vm");
             }, new VelocityTemplateEngine());
+            get("", (req, res) -> {
+                Map<String, Object> model = new HashMap<>();
+                //Prueba de conexión a la BD
+                Connection c=Conexion.getConexion();
+                String vista="/mantenimiento.vm";
+                if(c!=null){
+                    vista="/login.vm";
+                    c.close();
+                }
+                return new ModelAndView(model, vista);
+            }, new VelocityTemplateEngine()); 
         });
-        
-
     }
 
     static int getHerokuAssignedPort() {

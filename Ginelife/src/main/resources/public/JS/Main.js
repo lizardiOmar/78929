@@ -35,7 +35,21 @@ const fecha=today+' '+DD+' de '+monthName+' del '+YYYY;
 document.getElementById('fecha').innerHTML=fecha;
 document.getElementById('salir').addEventListener('click', salir);
 function salir(e){
-    window.location.href="/";
+    axios.post('/logout', {
+        completed: false
+    })
+    .then(function (response) {
+        console.log(response.data);
+        if(response.data=='EXIT'){
+            alert('Saliendo.');
+            window.location.href="/";
+        }else{
+            alert('Error.');
+        }
+    })
+    .catch(function (error) {
+        console.log(error);
+    });
 }
 
 if(document.getElementById('pacientes')!=null){
