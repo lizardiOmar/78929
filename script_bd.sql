@@ -20,7 +20,7 @@ CREATE TABLE citas (
   nombre varchar(45) NOT NULL,
   hora varchar(5) NOT NULL,
   dia varchar(2) NOT NULL,
-  mes varchar(2) NOT NULL,
+  mes text NOT NULL,
   descripcion text NOT NULL,
   idginecologa int NOT NULL,
   estado integer NOT NULL,
