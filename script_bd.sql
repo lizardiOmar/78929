@@ -17,9 +17,9 @@ VALUES ('Esbeydi','Villa', 'Juan','1234567890','1234567890','1234567890','esbeyd
 //Tabla "CITAS"
 CREATE TABLE citas (
   idcitas SERIAL NOT NULL,
-  nombre varchar(45) NOT NULL,
-  hora varchar(5) NOT NULL,
-  dia varchar(2) NOT NULL,
+  nombre text NOT NULL,
+  hora text NOT NULL,
+  dia text NOT NULL,
   mes text NOT NULL,
   descripcion text NOT NULL,
   idginecologa int NOT NULL,
