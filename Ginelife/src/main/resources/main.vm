@@ -6,10 +6,9 @@
         <meta name='LOGIN' content='width=device-width, initial-scale=1'>
         <link rel='stylesheet' type='text/css' media='screen' href='public/CSS/Main.css'>
         <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-        </head>
+    </head>
     <body>
         <h1 id="titulo">GINELIFE</h1>
-        
         <div id="datos">
             <h3>Bienvenida<br>Dra. $nombres $apellidos</h3>
             <h5>Cédula profesional: $cedulaProfesional <br> Cédula especialista: $cedulaEspecialista</h5>
@@ -18,12 +17,11 @@
                 <p>$citasNo</p>
             #end
         </div>
-        <br><br>
+        <br>
+        <br>
         <div id="botones">
             <button type="button" id="citas">CITAS</button>
-            #if($correo=="siari_1905@hotmail.com" || $correo=="esbeydi@correo.com")
-                <button type="button" id="pacientes">PACIENTES</button>
-            #end
+            <button type="button" id="pacientes">PACIENTES</button>
             <button type="button" id="salir">SALIR</button>
         </div>
         <div id="direccion">
