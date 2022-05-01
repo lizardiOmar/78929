@@ -66,3 +66,44 @@ CREATE TABLE domicilios (
 //FK de "PACIENTES" a "DOMICILIOS"
 ALTER TABLE domicilios
 ADD FOREIGN KEY (idPaciente) REFERENCES pacientes(idPaciente);
+
+//Tabla "HISTORIAS CLINICAS"
+CREATE TABLE historiasClinicas (
+  	idHistoriaClinica SERIAL NOT NULL,
+	  fecha date NOT NULL,
+  	hora time NOT NULL,
+  	idPaciente int NOT NULL,
+  	PRIMARY KEY (idHistoriaClinica)
+);
+//FK de "PACIENTES" a "HISTORIAS CLINICAS"
+ALTER TABLE historiasClinicas
+ADD FOREIGN KEY (idPaciente) REFERENCES pacientes(idPaciente);
+//Tabla "ANTECEDENTES HEREDO FAMILIARES"
+CREATE TABLE antecedentesHeredoFamiliares (
+  	idAntecedentesHeredoFamiliares SERIAL NOT NULL,
+	  diabetes int NOT NULL, 
+	  hta int NOT NULL, 
+	  neoplasticos int NOT NULL, 
+	  cardiopatias int NOT NULL, 
+	  tiroides int NOT NULL, 
+	  especificaciones text NULL, 
+  	idHistoriaClinica int NOT NULL,
+  	PRIMARY KEY (idAntecedentesHeredoFamiliares)
+);
+//FK de "ANTECEDENTES HEREDO FAMILIARES" a "HISTORIAS CLINICAS"
+ALTER TABLE antecedentesHeredoFamiliares
+ADD FOREIGN KEY (idHistoriaClinica) REFERENCES historiasClinicas(idHistoriaClinica);
+//Tabla "ANTECEDENTES PERSONALES PATOLOGICOS"
+CREATE TABLE antecedentesPersonalesPatologicos (
+  		idAntecedentesPersonalesPatologicos SERIAL NOT NULL,
+	  	diabetes int NOT NULL, 
+	  	hta int NOT NULL, 
+	  	nefropatias int NOT NULL, 
+	  	cardiopatias int NOT NULL, 
+	  	epilepsia int NOT NULL, 
+  		idHistoriaClinica int NOT NULL,
+  		PRIMARY KEY (idAntecedentesPersonalesPatologicos)
+);
+//FK de "ANTECEDENTES PERSONALES PATOLOGICOS" a "HISTORIAS CLINICAS"
+ALTER TABLE antecedentesPersonalesPatologicos
+ADD FOREIGN KEY (idHistoriaClinica) REFERENCES historiasClinicas(idHistoriaClinica);
