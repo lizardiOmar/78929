@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset='utf-8'>
+        <title>Ginelife: Pacientes</title>
+        <meta name='Ginelife: nuevo paciente' content='width=device-width, initial-scale=1'>
+        <!-- Bootstrap -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+        <!-- Axios -->
+        <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+        <!-- CSS -->
+        <link rel='stylesheet' type='text/css' media='screen' href='https://ginelife-mx.herokuapp.com/public/CSS/Paciente.css'>
+    </head>
+    <body class="d-flex flex-column min-vh-100" style="background-color: #ffcccc;">
+        <!-- Barra de navegación -->
+        <nav class="navbar navbar-expand-lg navbar-light p-0" style="background-color: #ffe6e6;">
+			<div class="container-fluid">
+                <!-- Logo -->
+				<img src="https://ginelife-mx.herokuapp.com/public/IMG/Logo.png" alt="" width="50" height="50" class="d-inline-block align-text-top">
+				<div class="collapse navbar-collapse fw-bold" id="navbarText">
+					<ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <!-- Inicio nav. -->
+						<li class="nav-item" id="inicio_n">
+							<a class="nav-link active fs-4 text-center" style="width: 140px; height: 50px; color: #996600" href="/ginelife">Inicio</a>
+						</li>
+                        <!-- Citas nav. -->
+						<li class="nav-item" id="citas_n">
+							<a class="nav-link fs-4 text-center" style="width: 140px; height: 50px; color: #996600" href="/citas">Citas</a>
+						</li>
+                        <!-- Pacientes nav. -->
+						<li class="nav-item" id="pacientes_n">
+							<a class="nav-link fs-4 text-center" aria-current="page" style="background-color: #ffcccc; width: 140px; height: 50px; text-align: center; color: #262322;">Pacientes</a>
+						</li>
+					</ul>
+                    <!-- Botón para cerrar sesión -->
+					<span class="navbar-text btn-lg btn-danger text-light" id="salir" type="button">
+						Cerrar sesión
+					</span>
+				</div>
+			</div>
+		</nav>
+        
+        <div class="container-fluid">
+            
+            <div class="row p-0 m-0">
+                <!-- Hilo de Ariadna -->
+                <div class="col-8">
+                    <span><a class="text-decoration-none fs-5 pacientes_link" href="https://ginelife-mx.herokuapp.com/pacientes">Pacientes></a></span>
+                    <span><a aria-current="page" class="text-decoration-none fw-bold fs-5 pacientes_link">$paciente.nombres $paciente.apellidoPaterno $paciente.apellidoMaterno</a></span>
+                </div>
+                <!-- Sesión actual -->
+                <div class="col-4 text-center">
+                    <p>$ginecologa.nombres $ginecologa.apellidoPaterno $ginecologa.apellidoMaterno</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-7">
+                    <div class="row mt-2">
+                        <div class="col-4">
+                            <img src="https://ginelife-mx.herokuapp.com/public/IMG/5.png" alt="Paciente" class="img-fluid m-3">
+                        </div>
+                        <div class="col-8">
+                            <!-- Nombre completo -->
+                            <div class="row">
+                                <label for="apellidoP" class="col-4 fw-bold">Apellido paterno:</label>
+                                <label for="apellidoM" class="col-4 fw-bold">Apellido materno:</label>
+                                <label for="nombres" class="col-4 fw-bold">Nombres:</label>
+                            </div>
+                            <div class="row">
+                                <input type="text" class="col-4 texto-perfil" value=$paciente.nombres id="apellidoP" disabled>
+                                <input type="text" class="col-4 texto-perfil" value=$paciente.apellidoPaterno id="apellidoM" disabled>
+                                <input type="text" class="col-4 texto-perfil" value=$paciente.apellidoMaterno id="nombres" disabled>
+                            </div>
+                            <!-- Fecha de nacimiento y edad-->
+                            <label class="fw-bold">Fecha de nacimiento</label>
+                            <div class="row pt-0">
+                                <label for="dn" class="col-3 fw-bold">Día:</label>
+                                <label for="mn" class="col-3 fw-bold">Mes:</label>
+                                <label for="an" class="col-3 fw-bold">Año:</label>
+                                <label for="edad" class="col-3 fw-bold">Edad:</label>
+                            </div>
+                            <div class="row">
+                                <input type="text" class="col-3 texto-perfil" value=$dn id="dn" disabled>
+                                <input type="text" class="col-3 texto-perfil" value=$mn id="mn" disabled>
+                                <input type="text" class="col-3 texto-perfil" value=$an id="an" disabled>
+                                <input type="text" class="col-3 texto-perfil" value=$paciente.edad id="edad" disabled>
+                            </div>
+                            <!-- Información personal-->
+                            <label class="fw-bold">Información personal</label>
+                            <div class="row">
+                                <label for="estadoCivil" class="col-4 fw-bold">Estado civil:</label>
+                                <label for="ocupacion" class="col-4 fw-bold">Ocupación:</label>
+                                <label for="escolaridad" class="col-4 fw-bold">Escolaridad:</label>
+                            </div>
+                            <div class="row">
+                                <input type="text" class="col-4 texto-perfil" value=$paciente.estadoCivil id="estadoCivil" disabled>
+                                <input type="text" class="col-4 texto-perfil" value=$paciente.ocupacion id="ocupacion" disabled>
+                                <input type="text" class="col-4 texto-perfil" value=$paciente.escolaridad id="escolaridad" disabled>
+                            </div>
+                            <label class="fw-bold">Información de contacto</label>
+                            <div class="row">
+                                <label for="correo" class="col-6 fw-bold">Correo:</label>
+                                <label for="telefono" class="col-6 fw-bold">Teléfono:</label>
+                            </div>
+                            <div class="row">
+                                <input type="text" class="col-6 texto-perfil" value=$paciente.correo id="correo" disabled>
+                                <input type="text" class="col-6 texto-perfil" value=$paciente.telefono id="telefono" disabled>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="fw-bold fs-5 mt-1 text-center">Domicilio</p>
+                    <div class="col">
+                         <!-- Nombre completo -->
+                        <div class="row mb-3">
+                            <label for="municipio" class="col-3 fw-bold">Municipio/Delegación:</label>
+                            <input type="text" class="col-3 texto-perfil" value=$domicilio.municipio id="municipio" disabled>
+                            <label for="colonia" class="col-2 fw-bold">Colonia:</label>
+                            <input type="text" class="col-4 texto-perfil" value=$domicilio.colonia id="colonia" disabled>
+                        </div>
+                        <div class="row">
+                            <label for="calle" class="col-1 fw-bold">Calle:</label>
+                            <input type="text" class="col-3 texto-perfil" value=$domicilio.calle id="calle" disabled>
+                            <label for="numero" class="col-2 fw-bold">Número:</label>
+                            <input type="text" class="col-2 texto-perfil" value=$domicilio.numero id="numero" disabled>
+                            <label for="cp" class="col-2 fw-bold">C. P.:</label>
+                            <input type="text" class="col-2 texto-perfil" value=$domicilio.cp id="cp" disabled>
+                        </div>
+                    </div>
+                    <div class="row p-1" style="justify-content: center;">
+                        <button class="btn fw-bold text-dark" style="background-color: #20FC8F; width: 30%;">
+                            Editar
+                            <img src="https://ginelife-mx.herokuapp.com/public/IMG/6.png" alt="" width="25x">
+                        </button>
+                    </div>
+                </div>
+                <div class="col-5">
+
+                </div>
+            </div>
+        </div>
+        <footer class="text-center mt-auto" style="background-color: #ffe6e6; height: 50px;">
+            <p>Bosques de África #144-A, Colonia Bosques de Aragón<br>
+            Nezahualcóyotl, Estado de México</p>
+        </footer>
+        <script src='/public/JS/Paciente.js'></script>
+    </body>
+</html>

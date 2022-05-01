@@ -4,13 +4,42 @@ const mes_hoy=hoy.getMonth();
 const dia_hoy=hoy.getDate();
 const anio_hoy=hoy.getFullYear();
 const ubicacion = 'es';
+//Dia Seleccionado
 var diaS=0;
 var diaS_id=0;
+//Hora Seleccionada
 var horaS=0;
 var horaS_id=0;
-const r_cita=document.getElementById('reg_cita');
+//Boton "Agregar cita"
+const r_cita=document.getElementById('agregar_cita');
+//Funcion para "Agregar cita"
 r_cita.addEventListener('click', reg_cita);
-//Mes actual
+var modal = document.getElementById("myModal");
+var span = document.getElementsByClassName("close")[0];
+function reg_cita(e) {
+	if(diaS==0){
+		alert("primero seleccione un día del calendario")
+	}else{
+		if(horaS==0){
+			alert("primero seleccione una hora del itinerario del "+diaS+" de "+meses[mes_id]);
+		}else{
+			//alert("Puede crear una cita el día "+diaS+" de "+meses[mes_id]+" a las "+horaS);
+			document.getElementById('fecha').innerHTML="Fecha: "+diaS+" de "+meses[mes_id]+" a las "+horaS
+			//Datos seleccionados, se puede enviar la solicitud post al servidor para crear una cita
+			modal.style.display = "block";
+		}
+	}
+}
+span.onclick = function() {
+	modal.style.display = "none";
+}
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+	if (event.target == modal) {
+	    modal.style.display = "none";
+	}
+}
+//Meses
 const intlForMonths = new Intl.DateTimeFormat(ubicacion, { month: 'long' });
 const meses_array = [...Array(12).keys()];
 //Arreglo para el nombre de los meses
@@ -22,9 +51,6 @@ let aux = document.createElement("option");
 aux.innerHTML = intlForMonths.format(new Date(anio_hoy, mes_hoy)).toUpperCase();
 aux.value=mes_hoy;
 select_mes.appendChild(aux);
-let prueba=document.createElement("p");
-
-
 //Cargar días del mes actual
 meses_array.forEach(element => {
     meses.push(intlForMonths.format(new Date(anio_hoy, element)));
@@ -35,7 +61,6 @@ meses_array.forEach(element => {
 		select_mes.appendChild(aux);
 	}
 });
-
 select_mes.addEventListener("change", mes_select);
 var mes_id=mes_hoy;
 function mes_select(e){
@@ -55,7 +80,6 @@ console.log(today);
 llenar_calendario(mes_hoy)
 //Llenar calendario de acuerdo al mes
 function llenar_calendario(mes){
-	
 	let dia_1_index = new Date(anio_hoy, mes, 1).getDay();
 	let dia_1_text=intlForWeeks.format(new Date(anio_hoy, mes, 1));
 	let dia_ultimo = new Date(anio_hoy, mes+1, 0).getDate();
@@ -63,6 +87,7 @@ function llenar_calendario(mes){
 	for(let i=1;i<43;i++){
 		document.getElementById(i).innerHTML='-';
 		document.getElementById(i).value='0';
+        document.getElementById(i).style.backgroundColor="#ffcccc";
 	}
 	console.log(dia_1_text)
 	switch (dia_1_text) {
@@ -189,8 +214,13 @@ function llenar_calendario(mes){
 	diaS_id=0;
 	horaS=0;
 	horaS_id=0;
+    for(let i=1;i<11;i++){
+        let h=i+'h';
+        document.getElementById(h).addEventListener('click', getHora);
+        document.getElementById(h).style.backgroundColor="#ffcccc";
+    }
+    r_cita.style.backgroundColor="#6a6e6c";
 }
-
 function getDia(e){
 	if(horaS!=0){
 		if(document.getElementById(horaS_id)!=null){
@@ -209,12 +239,13 @@ function getDia(e){
 		document.getElementById(diaS_id).style.backgroundColor="#ff8080";
 	}
 	diaS=e.srcElement.innerHTML;
+    /*
 	axios.get('/itinerario?dia='+diaS+'&mes='+meses[mes_id]).then(function (response) {
 		var citasDia=JSON.parse(JSON.stringify(response.data));
 		console.log(citasDia);
 	});
+    */
 }
-
 function getHora(e){
 	if(diaS==0){
 		alert("primero seleccione un día del calendario.");
@@ -228,40 +259,66 @@ function getHora(e){
 			document.getElementById(horaS_id).style.backgroundColor="#ff8080";
 		}
 		horaS=e.srcElement.innerHTML;
-		//alert(diaS+'-'+mes_id+', '+horaS);
+        r_cita.style.backgroundColor="#20FC8F";
+		alert(diaS+'-'+mes_id+', '+horaS);
 	}
-	
-}
+}//Agregar funciones e inicializar horas en Matutino
+var hr=9;
 for(let i=1;i<11;i++){
-	let v=i+'v';
-	let m=i+'m';
-	document.getElementById(m).addEventListener('click', getHora);
-	document.getElementById(v).addEventListener('click', getHora);
+    let h=i+'h';
+    document.getElementById(h).addEventListener('click', getHora);
+    var quo = Math.floor(i/2);
+    var rem = i%2;
+        
+    if(rem!=0){
+        console.log(i+"Hora = "+hr+":00");
+        document.getElementById(h).innerHTML=hr+":00";
+    }else{
+        console.log(i+"Hora = "+hr+":30");
+        document.getElementById(h).innerHTML=hr+":30";
+        hr=hr+1;
+    }
+    document.getElementById(h).style.backgroundColor="#ffcccc";
 }
-var modal = document.getElementById("myModal");
-var span = document.getElementsByClassName("close")[0];
-function reg_cita(e) {
-	if(diaS==0){
-		alert("primero seleccione un día del calendario")
-	}else{
-		if(horaS==0){
-			alert("primero seleccione una hora del itinerario del "+diaS+" de "+meses[mes_id]);
-		}else{
-			//alert("Puede crear una cita el día "+diaS+" de "+meses[mes_id]+" a las "+horaS);
-			document.getElementById('fecha').innerHTML="Fecha: "+diaS+" de "+meses[mes_id]+" a las "+horaS
-			//Datos seleccionados, se puede enviar la solicitud post al servidor para crear una cita
-			modal.style.display = "block";
-		}
-	}
+document.getElementById('matutino').addEventListener('click', setHorasMatutino);
+function setHorasMatutino(e) {
+    var hr=9;
+    for(let i=1;i<11;i++){
+        let h=i+'h';
+        var quo = Math.floor(i/2);
+        var rem = i%2;
+        
+        if(rem!=0){
+            console.log(i+"Hora = "+hr+":00");
+            document.getElementById(h).innerHTML=hr+":00";
+        }else{
+            console.log(i+"Hora = "+hr+":30");
+            document.getElementById(h).innerHTML=hr+":30";
+            hr=hr+1;
+        }
+        
+        document.getElementById(h).style.backgroundColor="#ffcccc";
+    }
 }
-span.onclick = function() {
-	modal.style.display = "none";
-}
-// When the user clicks anywhere outside of the modal, close it
-window.onclick = function(event) {
-	if (event.target == modal) {
-	  modal.style.display = "none";
-	}
+document.getElementById('vespertino').addEventListener('click', setHorasVespertino);
+function setHorasVespertino(e) {
+    var hr=14;
+    for(let i=1;i<11;i++){
+        let h=i+'h';
+        var quo = Math.floor(i/2);
+        var rem = i%2;
+        
+        if(rem!=0){
+            console.log(i+"Hora = "+hr+":00");
+            document.getElementById(h).innerHTML=hr+":00";
+        }else{
+            console.log(i+"Hora = "+hr+":30");
+            document.getElementById(h).innerHTML=hr+":30";
+            hr=hr+1;
+        }
+        
+        document.getElementById(h).style.backgroundColor="#ffcccc";
+    }
 }
 btnCrear=document.getElementById("crearCita");
 btnCrear.addEventListener("click", crearCita);
@@ -275,18 +332,23 @@ function crearCita(e) {
 			let nombre=txtNombre;
 			let hora=horaS;
 			let dia=diaS;
-			let mes=meses[mes_id];
+			if(dia<10){
+				dia='0'+dia;
+			}
+			let mes=parseInt(mes_id)+1;
+			if(mes<10){
+				mes='0'+mes;
+			}
+            let fecha=anio_hoy+'-'+mes+'-'+dia;
 			let descripcion=txtDescripcion;
-			let idGinecologa=document.getElementById('g').innerHTML;
 			let estado = 0;
 			axios.post('/crearCita', {
                 idCita: 0,
                 nombre: nombre,
-                hora: hora,
-                dia: dia,
-                mes: mes,
+                hora: hora+':00',
+                fecha: fecha,
                 descripcion: descripcion,
-                idGinecologa: idGinecologa,
+                idGinecologa: 123,
                 estado: estado,
                 completed: false
             })
@@ -300,6 +362,12 @@ function crearCita(e) {
                     window.location.href='/citas';
                 }
             })
+			.catch(
+				function (error) {
+				  console.log('Show error notification!')
+				  return Promise.reject(error)
+				}
+			)
 		}else{
 			msgModal.innerHTML="La descripción es un campo obligatorio para registrar una cita."
 		}
