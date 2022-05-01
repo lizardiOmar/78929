@@ -178,3 +178,14 @@ CREATE TABLE antecedentesGinecoObstetricos (
 //FK de "ANTECEDENTES GINECO OBSTETRICOS" a "HISTORIAS CLINICAS"
 ALTER TABLE antecedentesGinecoObstetricos
 ADD FOREIGN KEY (idHistoriaClinica) REFERENCES historiasClinicas(idHistoriaClinica);
+//View pacientes-domicilios
+CREATE VIEW paciente_domicilio AS
+    SELECT 
+		pacientes.nombres, pacientes.apellidoPaterno, pacientes.apellidoMaterno, 
+		pacientes.edad, pacientes.estadocivil, pacientes.ocupacion, pacientes.escolaridad,
+		pacientes.ciudaddenacimiento, pacientes.entidaddenacimiento, pacientes.telefono, 
+		pacientes.correo, pacientes.idginecologa, domicilios.*
+    FROM 
+		pacientes, 
+		domicilios
+    WHERE pacientes.idPaciente=domicilios.idPaciente;
