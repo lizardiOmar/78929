@@ -1,11 +1,11 @@
 package mx.ginelife.db.obj;
 
+
 public class Cita {
     private int idCitas;
     private String nombre;
     private String hora;
-    private String dia;
-    private String mes;
+    private String fecha;
     private String descripcion;
     private int idGinecologa;
     private int estado;
@@ -14,20 +14,17 @@ public class Cita {
         this.hora = hora;
     }
     
-    public Cita(int idCitas, String hora, String dia, String mes, int estado) {
+    public Cita(int idCitas, String hora, String fecha, int estado) {
         this.idCitas = idCitas;
         this.hora = hora;
-        this.dia = dia;
-        this.mes = mes;
+        this.fecha = fecha;
         this.estado = estado;
     }
-    public Cita(int idCitas, String nombre, String hora, String dia, String mes, String descripcion, int idGinecologa,
-            int estado) {
+    public Cita(int idCitas, String nombre, String hora, String fecha, String descripcion, int idGinecologa, int estado) {
         this.idCitas = idCitas;
         this.nombre = nombre;
         this.hora = hora;
-        this.dia = dia;
-        this.mes = mes;
+        this.fecha = fecha;
         this.descripcion = descripcion;
         this.idGinecologa = idGinecologa;
         this.estado = estado;
@@ -50,11 +47,11 @@ public class Cita {
     public void setHora(String hora) {
         this.hora = hora;
     }
-    public String getDia() {
-        return dia;
+    public String getFecha() {
+        return fecha;
     }
-    public void setDia(String dia) {
-        this.dia = dia;
+    public void setFecha(String fecha) {
+        this.fecha = fecha;
     }
     public String getDescripcion() {
         return descripcion;
@@ -68,17 +65,17 @@ public class Cita {
     public void setIdGinecologa(int idGinecologa) {
         this.idGinecologa = idGinecologa;
     }
-    public String getMes() {
-        return mes;
-    }
-    public void setMes(String mes) {
-        this.mes = mes;
-    }
     public int getEstado() {
         return estado;
     }
     public void setEstado(int estado) {
         this.estado = estado;
+    }
+
+    @Override
+    public String toString() {
+        return "Cita [descripcion=" + descripcion + ", estado=" + estado + ", fecha=" + fecha + ", hora=" + hora
+                + ", idCitas=" + idCitas + ", idGinecologa=" + idGinecologa + ", nombre=" + nombre + "]";
     }
     
 }
