@@ -107,3 +107,74 @@ CREATE TABLE antecedentesPersonalesPatologicos (
 //FK de "ANTECEDENTES PERSONALES PATOLOGICOS" a "HISTORIAS CLINICAS"
 ALTER TABLE antecedentesPersonalesPatologicos
 ADD FOREIGN KEY (idHistoriaClinica) REFERENCES historiasClinicas(idHistoriaClinica);
+//Tabla "ALERGIAS"
+CREATE TABLE alergias (
+  		idAlergia SERIAL NOT NULL,
+	  	nombre text NOT NULL, 
+  		idHistoriaClinica int NOT NULL,
+  		PRIMARY KEY (idAlergia)
+);
+//FK de "ALERGIAS" a "HISTORIAS CLINICAS"
+ALTER TABLE alergias
+ADD FOREIGN KEY (idHistoriaClinica) REFERENCES historiasClinicas(idHistoriaClinica);
+//Tabla "ANTECEDENTES TRAUMATICOS"
+CREATE TABLE antecedentesTraumaticos (
+  		idAntecedenteTraumatico SERIAL NOT NULL,
+	  	descripcion text NOT NULL, 
+		fecha date NOT NULL,
+  		idHistoriaClinica int NOT NULL,
+  		PRIMARY KEY (idAntecedenteTraumatico)
+);
+//FK de "ANTECEDENTES TRAUMATICOS" a "HISTORIAS CLINICAS"
+ALTER TABLE antecedentesTraumaticos
+ADD FOREIGN KEY (idHistoriaClinica) REFERENCES historiasClinicas(idHistoriaClinica);
+//Tabla "ANTECEDENTES QUIRURGICOS"
+CREATE TABLE antecedentesQuirurgicos (
+  		idAntecedenteQuirurgico SERIAL NOT NULL,
+	  	descripcion text NOT NULL, 
+		fecha date NOT NULL,
+  		idHistoriaClinica int NOT NULL,
+  		PRIMARY KEY (idAntecedenteQuirurgico)
+);
+//FK de "ANTECEDENTES QUIRURGICOS" a "HISTORIAS CLINICAS"
+ALTER TABLE antecedentesQuirurgicos
+ADD FOREIGN KEY (idHistoriaClinica) REFERENCES historiasClinicas(idHistoriaClinica);
+//Tabla "ANTECEDENTES PERSONALES NO PATOLOGICOS"
+CREATE TABLE antecedentesPersonalesNoPatologicos (
+  		idAntecedentesPersonalesNoPatologicos SERIAL NOT NULL,
+	  	tabaquismo int NOT NULL, 
+	  	alcoholismo int NOT NULL, 
+		drogas int NOT NULL, 
+		rubeola int NOT NULL, 
+		influenza int NOT NULL,
+		tetanos int NOT NULL,
+		covid19 int NOT NULL,
+  		idHistoriaClinica int NOT NULL,
+  		PRIMARY KEY (idAntecedentesPersonalesNoPatologicos)
+);
+//FK de "ANTECEDENTES PERSONALES NO PATOLOGICOS" a "HISTORIAS CLINICAS"
+ALTER TABLE antecedentesPersonalesNoPatologicos
+ADD FOREIGN KEY (idHistoriaClinica) REFERENCES historiasClinicas(idHistoriaClinica);
+//Tabla "ANTECEDENTES GINECO OBSTETRICOS"
+CREATE TABLE antecedentesGinecoObstetricos (
+  		idAantecedentesGinecoObstetricos SERIAL NOT NULL,
+	  	menarca text NOT NULL, 
+		ritmo text NOT NULL, 
+		ivs text NOT NULL, 
+	 	compañerosSexuales int NOT NULL, 
+	  	gestaciones int NOT NULL, 
+		partos int NOT NULL, 
+		abortos int NOT NULL, 
+		ceareas int NOT NULL, 
+		ectopico text NOT NULL, 
+		molar text NOT NULL, 
+		fup text NOT NULL, 
+		fum text NOT NULL, 
+		fpp text NOT NULL, 
+		padiecimientoActual text NOT NULL,
+  		idHistoriaClinica int NOT NULL,
+  		PRIMARY KEY (idAantecedentesGinecoObstetricos)
+);
+//FK de "ANTECEDENTES GINECO OBSTETRICOS" a "HISTORIAS CLINICAS"
+ALTER TABLE antecedentesGinecoObstetricos
+ADD FOREIGN KEY (idHistoriaClinica) REFERENCES historiasClinicas(idHistoriaClinica);
