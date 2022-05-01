@@ -189,3 +189,28 @@ CREATE VIEW paciente_domicilio AS
 		pacientes, 
 		domicilios
     WHERE pacientes.idPaciente=domicilios.idPaciente;
+//Historia clinica (VISTA)
+CREATE VIEW 
+	vw_historias_clinicas AS
+SELECT 
+	pac.idPaciente, pac.nombres, pac.apellidoPaterno, pac.apellidoMaterno, pac.edad, pac.estadoCivil, pac.ocupacion,
+	CONCAT  (pac.ciudadDeNacimiento, ', ', pac.entidadDeNacimiento) AS LugarDeNacimiento, pac.fechanacimiento,
+	pac.escolaridad, pac.telefono, pac.correo, 
+	dom.municipio, dom.colonia, dom.calle, dom.numero, dom.cp,
+	hc.fecha as fechaHC, hc.hora as horaHC,
+	ahf.diabetes as diabeteshf, ahf.hta as htahf, ahf.neoplasticos as neoplasticoshf, ahf.cardiopatias as cardiopatiashf,
+	ahf.tiroides as tiroideshf, ahf.especificaciones as especificacioneshf,
+	app.diabetes as diabetespp, app.hta as htapp, app.nefropatias as nefropatiaspp, app.cardiopatias as cardiopatiaspp,
+	app.epilepsia as epilepsiapp,
+	apnp.tabaquismo, apnp.alcoholismo, apnp.drogas, apnp.rubeola, apnp.influenza, apnp.tetanos, apnp.covid19,
+	ago.*
+FROM
+	pacientes as pac, domicilios as dom, historiasClinicas as hc, antecedentesHeredoFamiliares as ahf,
+	antecedentesPersonalesPatologicos as app, antecedentesPersonalesNoPatologicos as apnp, 
+	antecedentesGinecoObstetricos as ago
+WHERE
+	pac.idPaciente=dom.idPaciente and pac.idPaciente=hc.idPaciente and 
+	hc.idHistoriaClinica=ahf.idHistoriaClinica and hc.idHistoriaClinica=app.idHistoriaClinica and
+	hc.idHistoriaClinica=apnp.idHistoriaClinica and hc.idHistoriaClinica=ago.idHistoriaClinica
+ORDER BY 
+	pac.apellidoPaterno, pac.apellidoMaterno, pac.nombres asc;
