@@ -240,6 +240,9 @@ CREATE TABLE exploracionesFisicas (
   	idPaciente int NOT NULL,
   	PRIMARY KEY (idExploracionFisica)
 );
+//FK de "PACIENTES" a "EXPLORACIONES FISICAS"
+ALTER TABLE exploracionesFisicas
+ADD FOREIGN KEY (idPaciente) REFERENCES pacientes(idPaciente);
 //Estudios de laboratorio
 CREATE TABLE estudiosLaboratorio (
   	idEstudioLaboratorio SERIAL NOT NULL,
@@ -257,3 +260,6 @@ CREATE TABLE estudiosLaboratorio (
   	idExploracionFisica int NOT NULL,
   	PRIMARY KEY (idEstudioLaboratorio)
 );
+//FK de "ESTUDIOS LABORATORIO" a "EXPLORACIONES FISICAS"
+ALTER TABLE estudiosLaboratorio
+ADD FOREIGN KEY (idExploracionFisica) REFERENCES exploracionesFisicas(idExploracionFisica);
