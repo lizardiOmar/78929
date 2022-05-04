@@ -235,6 +235,25 @@ CREATE TABLE exploracionesFisicas (
 	cabeza_nota text NULL,
 	cuello int NOT NULL,
 	cuello_nota text NULL,
+	pronostico text NOT NULL,
+	planManejo text NOT NULL,
   	idPaciente int NOT NULL,
   	PRIMARY KEY (idExploracionFisica)
+);
+//Estudios de laboratorio
+CREATE TABLE estudiosLaboratorio (
+  	idEstudioLaboratorio SERIAL NOT NULL,
+	grupoSanguineo text NULL,
+	rh text NULL,
+	hemoglobina text NULL,
+	hematrocito text NULL,
+	leucocitos text NULL,
+	plaquetas text NULL,
+	tp text NULL,
+	tpt text NULL,
+	glucosa text NULL,
+	vdrl text NULL,
+	antiHIV text NULL,
+  	idExploracionFisica int NOT NULL,
+  	PRIMARY KEY (idEstudioLaboratorio)
 );
