@@ -214,3 +214,11 @@ WHERE
 	hc.idHistoriaClinica=apnp.idHistoriaClinica and hc.idHistoriaClinica=ago.idHistoriaClinica
 ORDER BY 
 	pac.apellidoPaterno, pac.apellidoMaterno, pac.nombres asc;
+//Tabla "EXPLORACIONES FISICAS"
+CREATE TABLE exploracionesFisicas (
+  	idExploracionFisica SERIAL NOT NULL,
+	fecha date NOT NULL,
+  	hora time NOT NULL,
+  	idPaciente int NOT NULL,
+  	PRIMARY KEY (idExploracionFisica)
+);
