@@ -20,13 +20,13 @@ public class CitaDAO {
 
     private static final String table="citas";
 
-    public static List <Cita> getCitas(){
+    public static List <Cita> getCitas(String fecha){
         List <Cita> citas=new ArrayList<>();
         
         try{
             Connection c= Conexion.getConexion();
             Statement statement = c.createStatement();
-            ResultSet rs=statement.executeQuery("select * from "+ table);
+            ResultSet rs=statement.executeQuery("select * from "+ table+" where fecha='"+fecha+"' and estado=0;");
             if(!rs.next()){
                 System.out.println("no hubo una coincidencia con la base de datos");
                 return null;
@@ -48,7 +48,6 @@ public class CitaDAO {
     }
     public static List <Cita> getItinerarioByFecha(String fecha, Integer idGinecologa){
         List <Cita> citas=new ArrayList<>();
-        
         try{
             Connection c= Conexion.getConexion();
             Statement statement = c.createStatement();
@@ -125,7 +124,7 @@ public class CitaDAO {
         try{
             Connection c= Conexion.getConexion();
             Statement statement = c.createStatement();
-            ResultSet rs=statement.executeQuery("select * from "+ table + " where idginecologa  = " + idginecologa );
+            ResultSet rs=statement.executeQuery("select * from "+ table + " where idginecologa  = " + idginecologa+" and estado=0 order by fecha, hora asc;" );
             if(!rs.next()){
                 System.out.println("no hubo una coincidencia con la base de datos");
                 return null;
@@ -186,5 +185,31 @@ public class CitaDAO {
             respuesta=true;
         }
         return respuesta;
+    }
+    public static List <Cita> getCitasCanceladasByGinecologa(int idginecologa){
+        List <Cita> citas=new ArrayList<>();
+        
+        try{
+            Connection c= Conexion.getConexion();
+            Statement statement = c.createStatement();
+            ResultSet rs=statement.executeQuery("select * from "+ table + " where idginecologa  = " + idginecologa+" and estado=1 order by fecha, hora asc;" );
+            if(!rs.next()){
+                System.out.println("no hubo una coincidencia con la base de datos");
+                return null;
+            }else{
+                Cita aux= new Cita(rs.getInt(1), rs.getString(2), rs.getString(7), rs.getString(6), rs.getString(3), rs.getInt(4), rs.getInt(5));
+                citas.add(aux);
+                while(rs.next()){
+                    aux= new Cita(rs.getInt(1), rs.getString(2), rs.getString(7), rs.getString(6), rs.getString(3), rs.getInt(4), rs.getInt(5));
+                    citas.add(aux);
+                }
+            }
+            rs.close();
+            statement.close();
+            c.close();
+        }catch(SQLException | URISyntaxException e){
+            System.out.println(e.getMessage());
+        }
+        return citas;
     }
 }

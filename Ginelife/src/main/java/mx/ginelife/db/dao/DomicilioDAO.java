@@ -6,7 +6,6 @@ import mx.ginelife.db.obj.Domicilio;
 import java.net.URISyntaxException;
 
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.ResultSet;
