@@ -12,10 +12,10 @@
         <!-- CSS -->
         <link rel='stylesheet' type='text/css' media='screen' href='public/CSS/Pacientes.css'>
     </head>
-    <body class="d-flex flex-column min-vh-100" style="background-color: #ffcccc;">
+    <body class="d-flex flex-column min-vh-100" style="background-color: #ffcccc;" onload="mueveReloj()">
         <!-- Barra de navegación -->
         <!-- Barra de navegación -->
-        <nav class="navbar navbar-expand-lg navbar-light p-0" style="background-color: #ffe6e6;">
+        <nav class="navbar navbar-expand-lg navbar-light p-0" style="background-color: #ffe6e6;" >
 			<div class="container-fluid">
                 <!-- Logo -->
 				<img src="https://ginelife-mx.herokuapp.com/public/IMG/Logo.png" alt="" width="50" height="50" class="d-inline-block align-text-top">
@@ -34,9 +34,15 @@
 							<a class="nav-link fs-4 text-center" aria-current="page" style="background-color: #ffcccc; width: 140px; height: 50px; text-align: center; color: #262322;">Pacientes</a>
 						</li>
 					</ul>
+                    <div class="col" >
+                        <input id="fechaHoy" type="text" size="auto" style="text-align: center;" class="fw-bold fs-5" disabled>
+                    </div>
+                    <form name="form_reloj" class="col">
+                        <input id="reloj" type="text" name="reloj" size="10" style="text-align: center;" class="fw-bold fs-5" disabled>
+                    </form>
                     <!-- Botón para cerrar sesión -->
 					<span class="navbar-text btn-lg btn-danger text-light" id="salir" type="button">
-						Cerrar sesión
+						<img src="https://ginelife-mx.herokuapp.com/public/IMG/Salir.png" alt="" width="35px">
 					</span>
 				</div>
 			</div>
@@ -86,7 +92,7 @@
                         </select>
                     </div>
                     <div>
-                        <div class="card" id="agregarPaciente" style="background-color: #ffe6e6;">
+                        <div class="card" id="agregarPaciente" style="background-color: #ffe6e6;" onclick="agregarPaciente()">
                             <h4 class="text-center">Agregar paciente</h4>
                             <img src="public/IMG/2.png" alt="" width="150" height="150" class="rounded mx-auto d-block">
                         </div>
@@ -98,13 +104,30 @@
                             <tr>
                                 <th scope="col">Paciente</th>
                                 <th scope="col">Fecha de nacimiento</th>
-                                <th scope="col">Estado civil</th>
                                 <th scope="col">Teléfono</th>
                                 <th scope="col"></th>
                             </tr>
                         </thead>
                         <tbody id="pacientes">
-
+                            #if($pacientes!="NO")
+                                #foreach($p in $pacientes)
+                                    <tr>
+                                        <th scope="row">
+                                            $p.apellidoPaterno $p.apellidoMaterno, $p.nombres
+                                        </th>
+                                        <td>
+                                            $p.fechaDeNacimiento ($p.edad años)
+                                        </td>
+                                        <td>
+                                            <button class="btn btn-light" type="button" onclick="verPaciente($p.idPaciente)">Perfil</button>
+                                            <button class="btn btn-light" type="button" onclick="navegarEF($p.idPaciente)">Exploración física</button>
+                                            <button class="btn btn-light" type="button" onclick="navegarHC($p.idPaciente)">Historia clínica</button>
+                                        </td>
+                                    </tr>
+                                #end
+                            #else
+                                <p class="fs-4 text-center">Sin pacientes registrados.</p>
+                            #end
                         </tbody>
                     </table>
                 </div>
@@ -114,6 +137,9 @@
             <p>Bosques de África #144-A, Colonia Bosques de Aragón<br>
             Nezahualcóyotl, Estado de México</p>
         </footer>
-        <script src='public/JS/Pacientes.js'></script>
+        <script src='https://ginelife-mx.herokuapp.com/public/JS/Pacientes.js'></script>
+        <script src='https://ginelife-mx.herokuapp.com/public/JS/Reloj.js'></script>
+        <script src='https://ginelife-mx.herokuapp.com/public/JS/Fecha.js'></script>
+        <script src='https://ginelife-mx.herokuapp.com/public/JS/CerrarSesion.js'></script>
     </body>
 </html>

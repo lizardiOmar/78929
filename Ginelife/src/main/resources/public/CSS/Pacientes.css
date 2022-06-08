@@ -9,3 +9,7 @@
     border: none;
     
 }
+
+#reloj, #fechaHoy{
+    border: none;
+}

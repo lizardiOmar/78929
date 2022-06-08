@@ -1,0 +1,18 @@
+@media print {
+
+    #nav_bar, #info_div, #buttons_div, #pie_div{
+        display: none;
+    }
+    #divImprimir{
+        width: 100vw;
+        height: 10vh;
+        overflow-y: none;
+    }
+    #datosDoctora_div{
+
+        display: block;
+    }
+    body{
+        background-color: white;
+    }
+  }

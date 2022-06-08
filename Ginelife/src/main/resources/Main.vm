@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset='utf-8'>
+        <title>Ginelife: Bienvenida Dra. $nombres</title>
+        <meta name='Ginelife: Bienvenida Dra. $nombres' content='width=device-width, initial-scale=1'>
+        <!-- Bootstrap -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+        <!-- Axios -->
+        <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+        <!-- CSS -->
+        <link rel='stylesheet' type='text/css' media='screen' href='https://ginelife-mx.herokuapp.com/public/CSS/Main.css'>
+    </head>
+    <body class="d-flex flex-column min-vh-100" style="background-color: #ffcccc;" onload="mueveReloj()">
+        <nav class="navbar navbar-expand-lg navbar-light p-0" style="background-color: #ffe6e6;">
+			<div class="container-fluid">
+				<img src="https://ginelife-mx.herokuapp.com/public/IMG/Logo.png" alt="" width="50" height="50" class="d-inline-block align-text-top">
+				<div class="collapse navbar-collapse fw-bold" id="navbarText">
+					<ul class="navbar-nav me-auto mb-2 mb-lg-0">
+						<li class="nav-item" style="background-color: #ffcccc; width: 140px; height: 50px; text-align: center;">
+							<a class="nav-link active fs-4 text-center" aria-current="page" href="" style="color: #262322;">Inicio</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link fs-4 text-center" href="https://ginelife-mx.herokuapp.com/citas" style="width: 140px; height: 50px; color: #996600">Citas</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link fs-4 text-center" href="https://ginelife-mx.herokuapp.com/pacientes" style="width: 140px; height: 50px; color: #996600">Pacientes</a>
+						</li>
+					</ul>
+                    <div class="col" >
+                        <input id="fechaHoy" type="text" size="auto" style="text-align: center;" class="fw-bold fs-5" disabled>
+                    </div>
+                    <form name="form_reloj" class="col">
+                        <input id="reloj" type="text" name="reloj" size="10" style="text-align: center;" class="fw-bold fs-5" disabled>
+                    </form>
+					<span class="navbar-text btn-lg btn-danger text-light" id="salir" type="button">
+						<img src="https://ginelife-mx.herokuapp.com/public/IMG/Salir.png" alt="" width="35px">
+					</span>
+				</div>
+			</div>
+		</nav>
+        <div class="container-fluid">
+            <!-- Hilo de Ariadna -->
+            <div class="row">
+                <div class="col-9">
+                    <span><a aria-current="page" class="text-decoration-none fw-bold fs-5 pacientes_link">Inicio</a></span>
+                </div>
+                <div class="col-3 text-center fs-5 p-0 m-0">
+                    <p>Dra. $nombres</p>
+                </div>
+            </div>
+            <div class="container" style="height: 75vh;">
+                <div class="row">
+                    <div class="col">
+                        <div class="row p-2">
+                            <div class="col">
+                                <div class="card">
+                                    <h4 class="text-center">Agregar cita</h4>
+                                    <img src="https://ginelife-mx.herokuapp.com/public/IMG/1.png" alt="" width="150" height="150" class="rounded mx-auto d-block">
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="card" id="agregarPaciente" style="background-color: #ffe6e6;">
+                                    <h4 class="text-center">Agregar paciente</h4>
+                                    <img src="https://ginelife-mx.herokuapp.com/public/IMG/2.png" alt="" width="150" height="150" class="rounded mx-auto d-block">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row p-2">
+                            <div class="col">
+                                <div class="card">
+                                    <h4 class="text-center">Buscar paciente</h4>
+                                    <img src="https://ginelife-mx.herokuapp.com/public/IMG/3.png" alt="" width="150" height="150" class="rounded mx-auto d-block">
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="card">
+                                    <h4 class="text-center">Impresiones</h4>
+                                    <img src="https://ginelife-mx.herokuapp.com/public/IMG/4.png" alt="" width="150" height="150" class="rounded mx-auto d-block">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="row">
+                            <h3 class="fs-4 text-center fw-bold p-1">Próximas citas</h3>
+                            <div class="navbar navbar-expand-lg navbar-light p-2 row text-center fw-bold" style="background-color: #ffe6e6;">
+                                <div class="nav-item fs-4 col" style="background-color: #ffcccc;"  id="btnCitasHoy">
+                                    Hoy
+                                </div>
+                                <div class="nav-item fs-4 col" id="btnCitasSemana">
+                                    Esta semana
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" style="overflow-y: scroll; height: 55vh;">
+                            <div class="container" id="containerHoy">
+                                #if($citasHoy!="NO")
+									#foreach($cita in $citasHoy)
+										<div class="row p-1 m-1" style="background-color: #ffe6e6; box-shadow: 2px 2px 5px #000000; justify-content: center;">
+											<div class="col-4">
+												<p class="text-center fs-6 p-0 m-0">
+													$cita.nombre
+												</p>
+												<p class="text-center fw-bold fs-6 p-0 m-0">
+													$cita.fecha
+												</p>
+												<p class="text-center fs-6 p-0 m-0">
+													$cita.hora
+												</p>
+											</div>
+											<div class="col-5">
+												<p class="text-center p-3 m-1">
+													$cita.descripcion
+												</p>
+											</div>
+											<div class="col">
+												<div class="row text-center p-1">
+													<button class="btn btn-danger" value="$cita.idCitas" id="$cita.idCitas" type="button" onclick="cancelarCita($cita.idCitas)">Cancelar</button>
+												</div>
+											</div>
+										</div>   
+									#end
+								#else
+									<p class="text-center fs-4">
+                                        Sin citas registradas para el dia de hoy.
+                                    </p>
+								#end
+                            </div>
+                            <div class="container" id="containerSemana" style="display: none;">
+                                #if($citasSemana!="NO")
+									#foreach($cita in $citasSemana)
+										<div class="row p-1 m-1" style="background-color: #ffe6e6; box-shadow: 2px 2px 5px #000000; justify-content: center;">
+											<div class="col-4">
+												<p class="text-center fs-6 p-0 m-0">
+													$cita.nombre
+												</p>
+												<p class="text-center fw-bold fs-6 p-0 m-0">
+													$cita.fecha
+												</p>
+												<p class="text-center fs-6 p-0 m-0">
+													$cita.hora
+												</p>
+											</div>
+											<div class="col-5">
+												<p class="text-center p-3 m-1">
+													$cita.descripcion
+												</p>
+											</div>
+											<div class="col">
+												<div class="row text-center p-1">
+													<button class="btn btn-danger" value="$cita.idCitas" id="$cita.idCitas" type="button" onclick="cancelarCita($cita.idCitas)">Cancelar</button>
+												</div>
+											</div>
+										</div>   
+									#end
+								#else
+									<p class="text-center fs-4">
+                                        Sin citas registradas para esta semana.
+                                    </p>
+								#end
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <footer class="text-center mt-auto" style="background-color: #ffe6e6; height: 50px;">
+			<p>Bosques de África #144-A, Colonia Bosques de Aragón<br>
+			Nezahualcóyotl, Estado de México</p>
+		</footer>
+    </body>
+    <script src='https://ginelife-mx.herokuapp.com/public/JS/Reloj.js'></script>
+    <script src='https://ginelife-mx.herokuapp.com/public/JS/Fecha.js'></script>
+    <script src='https://ginelife-mx.herokuapp.com/public/JS/CerrarSesion.js'></script>
+	<script src='https://ginelife-mx.herokuapp.com/public/JS/CancelarCita.js'></script>
+	<script src='https://ginelife-mx.herokuapp.com/public/JS/Main.js'></script>
+</html>

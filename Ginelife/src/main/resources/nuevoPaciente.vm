@@ -35,7 +35,7 @@
 					</ul>
                     <!-- Botón para cerrar sesión -->
 					<span class="navbar-text btn-lg btn-danger text-light" id="salir" type="button">
-						Cerrar sesión
+						<img src="https://ginelife-mx.herokuapp.com/public/IMG/Salir.png" alt="" width="35px">
 					</span>
 				</div>
 			</div>
@@ -222,4 +222,5 @@
             Nezahualcóyotl, Estado de México</p>
         </footer>
         <script src='public/JS/NuevoPaciente.js'></script>
+        <script src='https://ginelife-mx.herokuapp.com/public/JS/CerrarSesion.js'></script>
     </body>

@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset='utf-8'>
+        <title>Ginelife: Nueva Historia Clínica</title>
+        <meta name='Ginelife: nueva historia clínica' content='width=device-width, initial-scale=1'>
+        <!-- Bootstrap -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+        <!-- Axios -->
+        <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+        <!-- CSS -->
+        <link rel='stylesheet' type='text/css' media='screen' href='https://ginelife-mx.herokuapp.com/public/CSS/NuevaHistoriaClinica.css'>
+    </head>
+    <body class="d-flex flex-column min-vh-100" style="background-color: #ffcccc;" onload="mueveReloj()">
+        <!-- Barra de navegación -->
+        <nav class="navbar navbar-expand-lg navbar-light p-0" style="background-color: #ffe6e6;">
+			<div class="container-fluid">
+                <!-- Logo -->
+				<img src="https://ginelife-mx.herokuapp.com/public/IMG/Logo.png" alt="" width="50" height="50" class="d-inline-block align-text-top">
+				<div class="collapse navbar-collapse fw-bold" id="navbarText">
+					<ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <!-- Inicio nav. -->
+						<li class="nav-item" id="inicio_n">
+							<a class="nav-link active fs-4 text-center" style="width: 140px; height: 50px; color: #996600" href="/ginelife">Inicio</a>
+						</li>
+                        <!-- Citas nav. -->
+						<li class="nav-item" id="citas_n">
+							<a class="nav-link fs-4 text-center" style="width: 140px; height: 50px; color: #996600" href="/citas">Citas</a>
+						</li>
+                        <!-- Pacientes nav. -->
+						<li class="nav-item" id="pacientes_n">
+							<a class="nav-link fs-4 text-center"href="/pacientes" style="background-color: #ffcccc; width: 140px; height: 50px; text-align: center; color: #262322;">Pacientes</a>
+						</li>
+					</ul>
+                    <div class="col text-center">
+                        <form class="col">
+                            <input type="text" class="fs-5 text-center text-secondary " id="fechaHoy" size="auto" style="text-align: center;" class="fw-bold" disabled>
+                        </form>                        
+                    </div>
+                    <div class="col text-center">
+                        <form name="form_reloj" class="col">
+                            <input id="reloj" type="text" name="reloj" size="10" style="text-align: center;" class="fw-bold fs-5 text-center" disabled>
+                        </form>
+                    </div>
+                    <!-- Botón para cerrar sesión -->
+					<span class="navbar-text btn-lg btn-danger text-light" id="salir" type="button">
+						<img src="https://ginelife-mx.herokuapp.com/public/IMG/Salir.png" alt="" width="35px">
+					</span>
+				</div>
+			</div>
+		</nav>
+
+        <div class="container-fluid">
+            <!-- Hilo de Ariadna -->
+            <div class="row">
+                <div class="col-9">
+                    <span><a class="text-decoration-none fs-5 pacientes_link" href="/pacientes">Pacientes></a></span>
+                    <span><a href=/pacientes/$paciente.idPaciente class="text-decoration-none fs-5 pacientes_link">$paciente.nombres $paciente.apellidoPaterno $paciente.apellidoMaterno></a></span>
+                    <span><a aria-current="page" class="text-decoration-none fw-bold fs-5 pacientes_link">Nueva historia clínica</a></span>
+                </div>
+                <div class="col-3 text-center fs-5 p-0 m-0">
+                    <p>Dra. $ginecologa.nombres </p>
+                </div>
+            </div>
+            <div class="container overflow-auto" style="height: 60vh;">
+                <div class="container-fluid" id="step_1" style="display: block;">
+                    <p class="text-center fs-5 fw-bold p-0 m-0 col">Antecedentes heredo familiares</p>
+                    <div class="row p-1 mt-2 fw-bold bg-gradient">
+                        <div class="col">
+                            <input class="form-check-input" type="checkbox" value="diabetes_hf" id="diabetes_hf">
+                            <label class="form-check-label" for="diabetes_hf">
+                                Diabetes
+                            </label>
+                        </div>
+                        <div class="col">
+                            <input class="form-check-input" type="checkbox" value="cardiopatias_hf" id="cardiopatias_hf">
+                            <label class="form-check-label" for="cardiopatias_hf">
+                                Cardiopatías
+                            </label>
+                        </div>
+                        <div class="col">
+                            <input class="form-check-input" type="checkbox" value="HTA_hf" id="HTA_hf">
+                            <label class="form-check-label" for="HTA_hf">
+                                HTA
+                            </label>
+                        </div>
+                        <div class="col">
+                            <input class="form-check-input" type="checkbox" value="tiroides_hf" id="tiroides_hf">
+                            <label class="form-check-label" for="tiroides_hf">
+                                Tiroides
+                            </label>
+                        </div>
+                        <div class="col">
+                            <input class="form-check-input" type="checkbox" value="neoplasticos_hf" id="neoplasticos_hf">
+                            <label class="form-check-label" for="neoplasticos_hf">
+                                Neoplásticos
+                            </label>
+                        </div>
+                    </div>
+                    <div class="row p-1 mt-2 text-center">
+                        <div class="col-2">
+                            <label class="fw-bold" for="especificaciones_hf">Especificaciones:</label>
+                        </div>
+                        <div class="col-10">
+                            <textarea class="form-control" id="especificaciones_hf" rows="8"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="container-fluid" id="step_2" style="display: none;">
+                    <p class="text-center fs-5 fw-bold p-0 m-0">Antecedentes personales patológicos</p>
+                    <div class="row p-1 mt-2 fw-bold bg-gradient">
+                        <div class="col">
+                            <input type="checkbox" value="diabetes_pp" id="diabetes_pp">
+                            <label class="form-check-label" for="diabetes_pp">
+                                Diabetes
+                            </label>
+                        </div>
+                        <div class="col">
+                            <input class="form-check-input" type="checkbox" value="cardiopatias_pp" id="cardiopatias_pp">
+                            <label class="form-check-label" for="cardiopatias_pp">
+                                Cardiopatías
+                            </label>
+                        </div>
+                        <div class="col">
+                            <input class="form-check-input" type="checkbox" value="HTA_pp" id="HTA_pp">
+                            <label class="form-check-label" for="HTA_pp">
+                                HTA
+                            </label>
+                        </div>
+                        <div class="col">
+                            <input class="form-check-input" type="checkbox" value="epilepsia_pp" id="epilepsia_pp">
+                            <label class="form-check-label" for="epilepsia_pp">
+                                Epilepsia
+                            </label>
+                        </div>
+                        <div class="col">
+                            <input class="form-check-input" type="checkbox" value="nefropatias_pp" id="nefropatias_pp">
+                            <label class="form-check-label" for="nefropatias_pp">
+                                Nefropatías
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="container-fluid" id="step_3" style="display: none;">
+                    <div class="row p-1 mt-2 text-center">
+                        <div class="col">
+                            <button class="row btn m-1 fw-bold" style="background-color: #ffe6e6;" id="btnAlergia">Agregar alergia</button>
+                            <table class="container-fluid" id="alergias_step_list">
+
+                            </table>
+                        </div>
+                        <div class="col">
+                            <button class="row btn m-1 fw-bold" style="background-color: #ffe6e6;" id="btnTrauma">Agregar antecedente traumático</button>
+                            <table class="container-fluid" id="traumas_step_list">
+
+                            </table>
+                        </div>
+                        <div class="col">
+                            <button class="row btn m-1 fw-bold" style="background-color: #ffe6e6;" id="btnCirugia">Agregar antecedente quirúrgico</button>
+                            <table class="container-fluid" id="cirugias_step_list">
+
+                            </table>
+                        </div>
+                        
+                    </div>
+                </div>
+                <div class="container-fluid" id="step_4" style="display: none;">
+                    <p class="text-center fs-5 fw-bold p-0 m-0">Antecedentes personales no patológicos </p>
+                    <div class="row p-1 mt-2 fw-bold bg-gradient">
+                        <div class="col">
+                            <label class="form-check-label fs-5">
+                                Adicciones:
+                            </label>
+                        </div>
+                        <div class="col">
+                            <input class="form-check-input" type="checkbox" value="tabaquismo" id="tabaquismo">
+                            <label class="form-check-label" for="tabaquismo">
+                                Tabaquismo
+                            </label>
+                        </div>
+                        <div class="col">
+                            <input class="form-check-input" type="checkbox" value="alcoholismo" id="alcoholismo">
+                            <label class="form-check-label" for="alcoholismo">
+                                Alcoholismo
+                            </label>
+                        </div>
+                        <div class="col">
+                            <input class="form-check-input" type="checkbox" value="drogas" id="drogas">
+                            <label class="form-check-label" for="drogas">
+                                Drogas
+                            </label>
+                        </div>
+                    </div>
+                    <div class="row p-1 mt-2 fw-bold bg-gradient">
+                        <div class="col">
+                            <label class="form-check-label fs-5">
+                                Inmunizaciones:
+                            </label>
+                        </div>
+                        <div class="col">
+                            <input class="form-check-input" type="checkbox" value="rubeola" id="rubeola">
+                            <label class="form-check-label" for="rubeola">
+                                Rubéola
+                            </label>
+                        </div>
+                        <div class="col">
+                            <input class="form-check-input" type="checkbox" value="influenza" id="influenza">
+                            <label class="form-check-label" for="influenza">
+                                Influenza
+                            </label>
+                        </div>
+                        <div class="col">
+                            <input class="form-check-input" type="checkbox" value="tetanos" id="tetanos">
+                            <label class="form-check-label" for="tetanos">
+                                Antitetánica 
+                            </label>
+                        </div>
+                        <div class="col">
+                            <input class="form-check-input" type="checkbox" value="covid19" id="covid19">
+                            <label class="form-check-label" for="covid19">
+                                Covid-19
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="container-fluid" id="step_5" style="display: none;">
+                    <p class="text-center fs-5 fw-bold p-0 m-0 col">Antecedentes ginecológicos y obstétricos</p>
+                    <div class="row">
+                        <div class="col">
+                            <label class="form-check-label" for="menarca">Menarca:</label>
+                            <input type="text" class="form-control" placeholder="Menarca" id="menarca" onchange="">
+                        </div>
+                        <div class="col">
+                            <label class="form-check-label" for="">Ritmo:</label>
+                            <input type="text" class="form-control" placeholder="Ritmo" id="ritmo" onchange="">
+                        </div>
+                        <div class="col">
+                            <label class="form-check-label" for="">I.V.S</label>
+                            <input type="text" class="form-control" placeholder="I.V.S" id="ivs" onchange="">
+                        </div>
+                        <div class="col">
+                            <label class="form-check-label" for="comSex">Número de compañeros sexuales:</label>
+                            <input type="text" class="form-control" placeholder="Número de compañeros sexuales" id="comSex" onchange="">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <label class="form-check-label" for="gestaciones">Gestaciones:</label>
+                            <input type="text" class="form-control" placeholder="Gestaciones" id="gestaciones" onchange="">
+                        </div>
+                        <div class="col">
+                            <label class="form-check-label" for="partos">Partos:</label>
+                            <input type="text" class="form-control" placeholder="Partos" id="partos" onchange="">
+                        </div>
+                        <div class="col">
+                            <label class="form-check-label" for="abortos">Abortos:</label>
+                            <input type="text" class="form-control" placeholder="Abortos" id="abortos" onchange="">
+                        </div>
+                        <div class="col">
+                            <label class="form-check-label" for="cesareas">Cesáreas:</label>
+                            <input type="text" class="form-control" placeholder="Cesáreas" id="cesareas" onchange="">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <label class="form-check-label" for="ectopico">Ectópico:</label>
+                            <input type="text" class="form-control" placeholder="Ectópico" id="ectopico" onchange="">
+                        </div>
+                        <div class="col">
+                            <label class="form-check-label" for="molar">Molar:</label>
+                            <input type="text" class="form-control" placeholder="Molar" id="molar" onchange="">
+                        </div>
+                        <div class="col">
+                            <label class="form-check-label" for="fup">FUP:</label>
+                            <input type="text" class="form-control" placeholder="FUP" id="fup" onchange="">
+                        </div>
+                        <div class="col">
+                            <label class="form-check-label" for="fum">FUM:</label>
+                            <input type="text" class="form-control" placeholder="FUM" id="fum" onchange="">
+                        </div>
+                        <div class="col">
+                            <label class="form-check-label" for="fpp">FPP:</label>
+                            <input type="text" class="form-control" placeholder="FPP" id="fpp" onchange="">
+                        </div>
+                    </div>
+                    <p class="text-center fs-5 fw-bold p-0 m-0 col">Padecimiento actual:</p>
+                    <textarea class="form-control" id="padecimientoActual" rows="4"></textarea>
+                </div>
+                <div class="container-fluid" id="step_6" style="display: none;">
+                    <p class="text-center fs-5">¿Los datos son correctos?</p>
+                    <div class="row" id="HC">
+                        <div class="m-1" style="background-color: #ffe6e6; box-shadow: 2px 2px 5px #000000; justify-content: center;">
+                            <p class="text-center fs-6 fw-bold">Antecedentes Heredo Familiares</p>
+                            <div class="row">
+                                <div class="col">
+                                    <p class="text-center fs-6">Diabetes: <strong id="diabetes__HF"></strong></p>
+                                </div>
+                                <div class="col">
+                                    <p class="text-center fs-6">Cardiopatías: <strong id="cardio__HF"></strong></p>
+                                </div>
+                                <div class="col">
+                                    <p class="text-center fs-6">HTA: <strong id="hta__HF"></strong></p>
+                                </div>
+                                <div class="col">
+                                    <p class="text-center fs-6">Tiroides: <strong id="tiro__HF"></strong></p>
+                                </div>
+                                <div class="col">
+                                    <p class="text-center fs-6">Neoplásticos: <strong id="neop__HF"></strong></p>
+                                </div>
+                            </div>
+                            <p>Especificaciones: <strong id="espec__HF"></strong></p>
+                        </div>
+                        <div class="m-1" style="background-color: #ffe6e6; box-shadow: 2px 2px 5px #000000; justify-content: center;">
+                            <p class="text-center fs-6 fw-bold">Antecedentes personales patológicos</p>
+                            <div class="row">
+                                <div class="col">
+                                    <p class="text-center fs-6">Diabetes: <strong id="diabetes__PP"></strong></p>
+                                </div>
+                                <div class="col">
+                                    <p class="text-center fs-6">Cardiopatías: <strong id="cardio__PP"></strong></p>
+                                </div>
+                                <div class="col">
+                                    <p class="text-center fs-6">HTA: <strong id="hta__PP"></strong></p>
+                                </div>
+                                <div class="col">
+                                    <p class="text-center fs-6">Epilepsia: <strong id="epil__PP"></strong></p>
+                                </div>
+                                <div class="col">
+                                    <p class="text-center fs-6">Nefropatías: <strong id="nefro__PP"></strong></p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="m-1" style="background-color: #ffe6e6; box-shadow: 2px 2px 5px #000000; justify-content: center;">
+                            <div class="row p-1 mt-2 text-center">
+                                <div class="col">
+                                    <p class="text-center fs-6 fw-bold">Alergias</p>
+                                    <table class="container-fluid" id="alergias_step_list_1">
+        
+                                    </table>
+                                </div>
+                                <div class="col">
+                                    <p class="text-center fs-6 fw-bold">Antecedentes quirurgicos</p>
+                                    <table class="container-fluid" id="traumas_step_list_1">
+                                        
+                                    </table>
+                                </div>
+                                <div class="col">
+                                    <p class="text-center fs-6 fw-bold">Antecedentes traumaticos</p>
+                                    <table class="container-fluid" id="cirugias_step_list_1">
+        
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="m-1" style="background-color: #ffe6e6; box-shadow: 2px 2px 5px #000000; justify-content: center;">
+                            <p class="text-center fs-6 fw-bold">Antecedentes personales no patológicos</p>
+                            <div class="row">
+                                <div class="col-2">
+                                    <p class="text-end fs-5 fw-bold">Adicciones:</p>
+                                </div>
+                                <div class="col">
+                                    <p class="text-center fs-6">Tabaquismo: <strong id="tabaquismo__PNP"></strong></p>
+                                </div>
+                                <div class="col">
+                                    <p class="text-center fs-6">Alcoholismo: <strong id="alcoholismo__PNP"></strong></p>
+                                </div>
+                                <div class="col">
+                                    <p class="text-center fs-6">Drogas: <strong id="drogas__PNP"></strong></p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-2">
+                                    <p class="text-end fs-5 fw-bold">Inmunizaciones:</p>
+                                </div>
+                                <div class="col">
+                                    <p class="text-center fs-6">Rubéola: <strong id="rubeola__PNP"></strong></p>
+                                </div>
+                                <div class="col">
+                                    <p class="text-center fs-6">Influenza: <strong id="influenza__PNP"></strong></p>
+                                </div>
+                                <div class="col">
+                                    <p class="text-center fs-6">Antitetánica: <strong id="tetanos__PNP"></strong></p>
+                                </div>
+                                <div class="col">
+                                    <p class="text-center fs-6">Covid-19: <strong id="covid__PNP"></strong></p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="m-1" style="background-color: #ffe6e6; box-shadow: 2px 2px 5px #000000; justify-content: center;">
+                            <p class="text-center fs-6 fw-bold">Antecedentes ginecológicos y obstétricos</p>
+                            <div class="row">
+                                <div class="col-3">
+                                    <p class="fs-6  text-center">Menarca: <strong id="menarca__"></strong></p>
+                                </div>
+                                <div class="col-3">
+                                    <p class="fs-6 text-center">Ritmo: <strong id="ritmo__"></strong></p>
+                                </div>
+                                <div class="col-2">
+                                    <p class="fs-6 text-center">I.V.S.: <strong id="ivs__"></strong></p>
+                                </div>
+                                <div class="col-4">
+                                    <p class="fs-6 text-center">Número de compañeros sexuales: <strong id="comSex__"></strong></p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <p class="fs-6  text-center">Gestaciones: <strong id="gestaciones__"></strong></p>
+                                </div>
+                                <div class="col">
+                                    <p class="fs-6 text-center">Partos: <strong id="partos__"></strong></p>
+                                </div>
+                                <div class="col">
+                                    <p class="fs-6 text-center">Abortos: <strong id="abortos__"></strong></p>
+                                </div>
+                                <div class="col">
+                                    <p class="fs-6 text-center">Cesáreas: <strong id="cesareas__"></strong></p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <p class="fs-6 text-center">Ectopico: <strong id="ectopico__"></strong></p>
+                                </div>
+                                <div class="col">
+                                    <p class="fs-6 text-center">Molar: <strong id="molar__"></strong></p>
+                                </div>
+                                <div class="col">
+                                    <p class="fs-6 text-center">FUM: <strong id="fum__"></strong></p>
+                                </div>
+                                <div class="col">
+                                    <p class="fs-6 text-center">FUP: <strong id="fup__"></strong></p>
+                                </div>
+                                <div class="col">
+                                    <p class="fs-6 text-center">FPP: <strong id="fpp__"></strong></p>
+                                </div>
+                            </div>
+                            <p>Padecimiento Actual: <strong id="padecimientoActual__"></strong></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row p-1 mt-2">
+                <span class="col-1"></span>
+                <button class="col-4 btn m-1 fw-bold btn-danger" id="btnPrev" type="button">Cancelar</button>
+                <span class="col-2"></span>
+                <button class="col-4 btn m-1 fw-bold btn-secondary" id="btnNext" type="button" value=$paciente.idPaciente>Siguiente</button>
+            </div>
+            <div class="row">
+                <progress id="registroBar" max="100" value="0" class="col text-center"></progress>
+            </div>
+        </div>
+    </body>
+    <footer class="text-center mt-auto" style="background-color: #ffe6e6; height: 50px;">
+        <p>Bosques de África #144-A, Colonia Bosques de Aragón<br>
+        Nezahualcóyotl, Estado de México</p>
+    </footer>
+   <!-- Modal alergia -->
+    <div id="modalAlergia" class="modal">
+        <!-- Modal content -->
+        <div class="modal-content" style="width: 40%; background-color: #ffe6e6;">
+            <p class="text-center fs-4 fw-bold">Agregar alergia</p>
+            <div class="row">
+                <div class="col-4">
+                    <label for="descAlergia" class="fs-5 fw-bold">Descripción:</label>
+                </div>
+                <div class="col-8">
+                    <input type="text" id="descAlergia"  class="form-control">
+                </div>
+            </div>
+
+            <p id="msgAlergia" class="text-center">-</p>
+            <div class="row text-center">
+                <div class="col">
+                    <button class="close btn btn-danger">Cerrar</button>
+                </div>
+                <div class="col">
+                    <button class="btn btn-success" id="guardarAlergia">Guardar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal trauma -->
+    <div id="modalTrauma" class="modal">
+        <!-- Modal content -->
+        <div class="modal-content" style="width: 40%; background-color: #ffe6e6;">
+            <p class="text-center fs-4 fw-bold">Agregar antecedente traumático</p>
+            <div class="row">
+                <div class="col-4">
+                    <label for="descTrauma" class="fs-5 fw-bold">Descripción:</label>
+                </div>
+                <div class="col-8">
+                    <input type="text" id="descTrauma"  class="form-control">
+                </div>
+            </div>
+            <br>
+            <div class="row">
+                <div class="col-4">
+                    <label class="fs-5 fw-bold">Fecha:</label>
+                </div>
+                
+                <div class="col-2">
+                    <input type="number" id="ddTrauma"  class="form-control" placeholder="DD">
+                </div>
+
+                <div class="col-3">
+                    <select name="mm" id="mmTrauma"  class="form-control">
+                        <option value="01">Enero</option>
+                        <option value="02">Febrero</option>
+                        <option value="03">Marzo</option>
+                        <option value="04">Abril</option>
+                        <option value="05">Mayo</option>
+                        <option value="06">Junio</option>
+                        <option value="07">Juilo</option>
+                        <option value="08">Agosto</option>
+                        <option value="09">Septiembre</option>
+                        <option value="10">Octubre</option>
+                        <option value="11">Noviembre</option>
+                        <option value="12">Diciembre</option>
+                    </select>
+                </div>
+                
+                <div class="col-3">
+                    <select name="aaaaTrauma" id="aaaaTrauma" class="form-control"></select>
+                </div>
+
+            </div>
+            <br>
+            <p id="msgTrauma" class="text-center">-</p>
+            <br>
+            <div class="row text-center">
+                <div class="col">
+                    <button class="close btn btn-danger">Cerrar</button>
+                </div>
+                <div class="col">
+                    <button class="btn btn-success" id="guardarTrauma">Guardar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal "Quirúrgicos" -->
+    <div id="modalCirugia" class="modal">
+        <!-- Modal content -->
+        <div class="modal-content" style="width: 40%; background-color: #ffe6e6;">
+          <p class="text-center fs-4 fw-bold">Agregar antecedente quirurgico</p>
+            <div class="row">
+                <div class="col-4">
+                    <label for="descCirug" class="fs-5 fw-bold">Descripción:</label>
+                </div>
+                <div class="col-8">
+                    <input type="text" id="descCirug"  class="form-control">
+                </div>
+            </div>
+            <br>
+            <div class="row">
+                <div class="col-4">
+                    <label class="fs-5 fw-bold">Fecha:</label>
+                </div>
+                
+                <div class="col-2">
+                    <input type="number" id="ddCirug"  class="form-control" placeholder="DD">
+                </div>
+
+                <div class="col-3">
+                    <select name="mm" id="mmCirug"  class="form-control">
+                        <option value="01">Enero</option>
+                        <option value="02">Febrero</option>
+                        <option value="03">Marzo</option>
+                        <option value="04">Abril</option>
+                        <option value="05">Mayo</option>
+                        <option value="06">Junio</option>
+                        <option value="07">Juilo</option>
+                        <option value="08">Agosto</option>
+                        <option value="09">Septiembre</option>
+                        <option value="10">Octubre</option>
+                        <option value="11">Noviembre</option>
+                        <option value="12">Diciembre</option>
+                    </select>
+                </div>
+                
+                <div class="col-3">
+                    <select name="aaaaCirug" id="aaaaCirug" class="form-control"></select>
+                </div>
+
+            </div>
+            <br>
+            <p id="msgCirug" class="text-center">-</p>
+            <br>
+            <div class="row text-center">
+                <div class="col">
+                    <button type="button" id="btnCerrarCir" class="close btn btn-danger">Cerrar</button>
+                </div>
+                <div class="col">
+                    <button class="btn btn-success" id="guardarCirug">Guardar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal "Información" -->
+    <div id="modalInfo" class="modal">
+        <!-- Modal content -->
+        <div class="modal-content container-fluid overflow-auto" style="width: 30%; background-color: #ffe6e6;">
+            <div class="row text-center">
+                <p class="fs-4 fw-bold">¡Atención!</p>
+            </div>
+            <div class="container-fluid p-2 text-center">
+                <p id="msgInfo" class="fs-6"></p>
+            </div>
+            <div class="row text-center">
+                <button class="col close btn btn-success" id="modalInfoAceptar">Aceptar</button>
+            </div>
+            
+        </div>
+        
+    </div>
+    <!-- Modal "Información" -->
+    <div id="modalLoading" class="modal">
+        <!-- Modal content -->
+        <div class="text-center">
+            <div class="row">
+                <div class="col">
+                    <p class="preloader"></p>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <p class="fs-3 fw-bold text-light" id="msgLoadingHC">Guardando historia clínica</p>
+        </div>
+    </div>
+    <script src='https://ginelife-mx.herokuapp.com/public/JS/SalirSinGuardar.js'></script>
+    <script src='https://ginelife-mx.herokuapp.com/public/JS/Reloj.js'></script>
+    <script src='https://ginelife-mx.herokuapp.com/public/JS/Fecha.js'></script>
+    <script src='https://ginelife-mx.herokuapp.com/public/JS/HistoriaClinica/Antecedente.js'></script>
+    <script src='https://ginelife-mx.herokuapp.com/public/JS/HistoriaClinica/Alergias.js'></script>
+    <script src='https://ginelife-mx.herokuapp.com/public/JS/HistoriaClinica/Traumatismos.js'></script>
+    <script src='https://ginelife-mx.herokuapp.com/public/JS/HistoriaClinica/Quirurgicos.js'></script>
+    <script src='https://ginelife-mx.herokuapp.com/public/JS/HistoriaClinica/FormularioHC.js'></script>
+    <script src='https://ginelife-mx.herokuapp.com/public/JS/CerrarSesion.js'></script>
+</html>

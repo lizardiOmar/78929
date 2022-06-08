@@ -1,0 +1,24 @@
+#fechaHoy, #horaAhora{
+    border: none;
+}
+.pacientes_link{
+    color:#262322;
+}
+.pacientes_link:hover{
+    color:#ffffff;
+}
+.label-frm{
+    background-color: #ffe6e600;
+    border: none;
+    
+}
+#divImprimir{
+    height: 70vh; 
+    overflow-y: auto;
+}
+#datosDoctora_div{
+    display: none;
+}
+#body_page{
+    background-color: #ffcccc;
+}

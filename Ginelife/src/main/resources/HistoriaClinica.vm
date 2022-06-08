@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset='utf-8'>
+        <title>Ginelife: Historia Clínica</title>
+        <meta name='$paciente.apellidoPaterno $paciente.apellidoMaterno $paciente.nombres - Historia clínica' content='width=device-width, initial-scale=1'>
+        <!-- Bootstrap -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+        <!-- Axios -->
+        <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+        <!-- CSS -->
+        <link rel='stylesheet' type='text/css' media='screen' href='https://ginelife-mx.herokuapp.com/public/CSS/HistoriaClinica.css'>
+        <link rel='stylesheet' type='text/css' media='print' href='https://ginelife-mx.herokuapp.com/public/CSS/HistoriaClinicaPrint.css'>
+    </head>
+    <body class="d-flex flex-column min-vh-100" onload="mueveReloj()" id="body_page">
+        <!-- Barra de navegación -->
+        <nav class="navbar navbar-expand-lg navbar-light p-0" style="background-color: #ffe6e6;" id="nav_bar">
+			<div class="container-fluid">
+                <!-- Logo -->
+				<img src="https://ginelife-mx.herokuapp.com/public/IMG/Logo.png" alt="" width="50" height="50" class="d-inline-block align-text-top">
+				<div class="collapse navbar-collapse fw-bold" id="navbarText">
+					<ul class="navbar-nav me-auto mb-2 mb-lg-0 col">
+                        <!-- Inicio nav. -->
+						<li class="nav-item" id="inicio_n">
+							<a class="nav-link active fs-4 text-center" style="width: 140px; height: 50px; color: #996600" href="/ginelife">Inicio</a>
+						</li>
+                        <!-- Citas nav. -->
+						<li class="nav-item" id="citas_n">
+							<a class="nav-link fs-4 text-center" style="width: 140px; height: 50px; color: #996600" href="/citas">Citas</a>
+						</li>
+                        <!-- Pacientes nav. -->
+						<li class="nav-item" id="pacientes_n">
+							<a class="nav-link fs-4 text-center"href="/pacientes" style="background-color: #ffcccc; width: 140px; height: 50px; text-align: center; color: #262322;">Pacientes</a>
+						</li>
+					</ul>
+                    <div class="col" >
+                        <input id="fechaHoy" type="text" size="auto" style="text-align: center;" class="fw-bold fs-5" disabled>
+                    </div>
+                    <form name="form_reloj" class="col">
+                        <input id="horaAhora" type="text" name="reloj" size="10" style="text-align: center;" class="fw-bold fs-5" disabled>
+                    </form>
+                    <!-- Botón para cerrar sesión -->
+					<span class="navbar-text btn-danger text-light p-2 rounded-2" id="salir" type="button">
+						<img src="https://ginelife-mx.herokuapp.com/public/IMG/Salir.png" alt="" width="35px">
+					</span>
+				</div>
+			</div>
+		</nav>
+        <div class="container-fluid">
+            <!-- Hilo de Ariadna -->
+            <div class="row" id="info_div">
+                <div class="col-9">
+                    <span><a class="text-decoration-none fs-5 pacientes_link" href="/pacientes">Pacientes></a></span>
+                    <span><a href=/paciente/$paciente.idPaciente class="text-decoration-none fs-5 pacientes_link">$paciente.nombres $paciente.apellidoPaterno $paciente.apellidoMaterno></a></span>
+                    <span><a aria-current="page" class="text-decoration-none fw-bold fs-5 pacientes_link">Historia clínica</a></span>
+                </div>
+                <div class="col-3 text-center fs-5 p-0 m-0">
+                    <p>Dra. $ginecologa.nombres $ginecologa.apellidoPaterno $ginecologa.apellidoMaterno</p>
+                </div>
+            </div>
+            <div class="container-fluid text-center" id="divImprimir">
+                <div class="row rounded-pill bg-gradient" style="background-color: #ffe6e6;">
+                    <div class="col-1">
+                        <img src="https://ginelife-mx.herokuapp.com/public/IMG/Logo.png" alt="" width="60" height="60" class="d-inline-block align-text-top">
+                    </div>
+                    <p class="fs-1 fw-bold text-dark text-center col-10 p-0 m-0">
+                        Historia Clínica Personal
+                    </p>
+                    <div class="col-1">
+                        <img src="https://ginelife-mx.herokuapp.com/public/IMG/unam.png" alt="" width="60" height="60" class="d-inline-block align-text-top">
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-3 text-center">
+                        <p class="fs-6"><strong>Fecha: </strong> $HC.fechaHC</p>
+                    </div>
+                    <div class="col-3 text-center">
+                        <p class="fs-6"><strong>Hora: </strong> $HC.horaHC</p>
+                    </div>
+                    <div class="col-6 text-center">
+                        <p class="fs-6"><strong>Nombre: </strong> $HC.nombres $HC.apellidoPaterno $HC.apellidoMaterno</p>
+                    </div>
+                </div>
+                <!-- Domicilio -->
+                <div class="row rounded-pill bg-gradient" style="background-color: #ffe6e6;">
+                    <p class="fs-5 fw-bold text-dark text-center p-0 m-0">
+                        Domicilio
+                    </p>
+                </div>
+                <div class="row">
+                    <div class="col-3 text-center">
+                        <p class="fs-6"><strong>Municipio: </strong> $HC.municipio</p>
+                    </div>
+                    <div class="col-3 text-center">
+                        <p class="fs-6"><strong>Colonia: </strong> $HC.colonia</p>
+                    </div>
+                    <div class="col text-center">
+                        <p class="fs-6"><strong>Calle: </strong> $HC.calle</p>
+                    </div>
+                    <div class="col text-center">
+                        <p class="fs-6"><strong># </strong> $HC.numero</p>
+                    </div>
+                     <div class="col text-center">
+                        <p class="fs-6"><strong>C. P. </strong> $HC.cp</p>
+                    </div>
+                </div>
+                <!-- Datos generales -->
+                <div class="row rounded-pill bg-gradient" style="background-color: #ffe6e6;">
+                    <p class="fs-5 fw-bold text-dark text-center p-0 m-0">
+                        Datos generales
+                    </p>
+                </div>
+                 <div class="row">
+                    <div class="col-6 text-center">
+                        <p class="fs-6"><strong>Lugar de nacimiento: </strong> $HC.lugarDeNacimiento </p>
+                    </div>
+                    <div class="col-4 text-center">
+                        <p class="fs-6"><strong>Fecha de nacimiento:</strong> $HC.fechanacimiento</p>
+                    </div>
+                    <div class="col-2 text-center">
+                        <p class="fs-6"><strong>Edad: </strong> $HC.edad años</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col text-center">
+                        <p class="fs-6"><strong>Estado civil: </strong>$HC.estadoCivil</p>
+                    </div>
+                    <div class="col text-center">
+                        <p class="fs-6"><strong>Ocupación: </strong>$HC.ocupacion</p>
+                    </div>
+                    <div class="col text-center">
+                        <p class="fs-6"><strong>Escolaridad: </strong>$HC.escolaridad</p>
+                    </div>
+                </div>
+                 <!-- Antecedentes heredo familiares -->
+                <div class="row rounded-pill bg-gradient" style="background-color: #ffe6e6;">
+                    <p class="fs-5 fw-bold text-dark text-center p-0 m-0">
+                        Antecedentes heredo familiares
+                    </p>
+                </div>
+                <div class="row">
+                    <div class="col text-center">
+                        <p class="fs-6"><strong>Diabetes: </strong>
+                            #if($HC.diabeteshf==0)
+                                No
+                            #else
+                                Si
+                            #end
+                        </p>
+                    </div>
+                    <div class="col text-center">
+                        <p class="fs-6"><strong>Cardiopatías: </strong>
+                            #if($HC.cardiopatiashf==0)
+                                No
+                            #else
+                                Si
+                            #end
+                        </p>
+                    </div>
+                    <div class="col text-center">
+                        <p class="fs-6"><strong>HTA: </strong>
+                            #if($HC.htahf==0)
+                                No
+                            #else
+                                Si
+                            #end
+                        </p>
+                    </div>
+                    <div class="col text-center">
+                        <p class="fs-6"><strong>Tiroides: </strong>
+                            #if($HC.tiroideshf==0)
+                                No
+                            #else
+                                Si
+                            #end
+                        </p>
+                    </div>
+                    <div class="col text-center">
+                        <p class="fs-6"><strong>Neoplásticos: </strong>
+                            #if($HC.neoplasticoshf==0)
+                                No
+                            #else
+                                Si
+                            #end
+                        </p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col text-justify">
+                        <p class="fs-6"><strong>Especificaciones:</strong> $HC.especificacioneshf</p>
+                    </div>
+                </div>
+                <!-- Antecedentes personales patológicos -->
+                <div class="row rounded-pill bg-gradient" style="background-color: #ffe6e6;">
+                    <p class="fs-5 fw-bold text-dark text-center p-0 m-0">
+                        Antecedentes personales patológicos
+                    </p>
+                </div>
+                <div class="row">
+                    <div class="col text-center">
+                        <p class="fs-6"><strong>Diabetes: </strong>
+                            #if($HC.diabetespp==0)
+                                No
+                            #else
+                                Si
+                            #end
+                        </p>
+                    </div>
+                    <div class="col text-center">
+                        <p class="fs-6"><strong>Cardiopatías: </strong>
+                            #if($HC.cardiopatiaspp==0)
+                                No
+                            #else
+                                Si
+                            #end
+                        </p>
+                    </div>
+                    <div class="col text-center">
+                        <p class="fs-6"><strong>HTA: </strong>
+                            #if($HC.htapp==0)
+                                No
+                            #else
+                                Si
+                            #end
+                        </p>
+                    </div>
+                    <div class="col text-center">
+                        <p class="fs-6"><strong>Epilepsia: </strong>
+                            #if($HC.epilepsiapp==0)
+                                No
+                            #else
+                                Si
+                            #end
+                        </p>
+                    </div>
+                    <div class="col text-center">
+                        <p class="fs-6"><strong>Nefropatías: </strong>
+                            #if($HC.nefropatiaspp==0)
+                                No
+                            #else
+                                Si
+                            #end
+                        </p>
+                    </div>
+                </div>
+                <!-- Antecedentes personales no patológicos -->
+                <div class="row rounded-pill bg-gradient" style="background-color: #ffe6e6;">
+                    <p class="fs-5 fw-bold text-dark text-center p-0 m-0">
+                        Antecedentes personales no patológicos
+                    </p>
+                </div>
+                <div class="row">
+                    <div class="col-2 text-end">
+                        <p class="fs-5 text-end"><strong>Adicciones</strong></p>
+                    </div>
+                    <div class="col text-center">
+                        <p class="fs-6"><strong>Tabaquismo: </strong>
+                            #if($HC.tabaquismo==0)
+                                No
+                            #else
+                                Si
+                            #end
+                        </p>
+                    </div>
+                    <div class="col text-center">
+                        <p class="fs-6"><strong>Alcoholismo: </strong>
+                            #if($HC.alcoholismo==0)
+                                No
+                            #else
+                                Si
+                            #end
+                        </p>
+                    </div>
+                    <div class="col text-center">
+                        <p class="fs-6"><strong>Drogas: </strong>
+                            #if($HC.drogas==0)
+                                No
+                            #else
+                                Si
+                            #end
+                        </p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-2 text-end">
+                        <p class="fs-5 text-end"><strong>Inmunizaciones</strong></p>
+                    </div>
+                    <div class="col text-center">
+                        <p class="fs-6"><strong>Rubéola: </strong>
+                            #if($HC.rubeola==0)
+                                No
+                            #else
+                                Si
+                            #end
+                        </p>
+                    </div>
+                    <div class="col text-center">
+                        <p class="fs-6"><strong>Influenza: </strong>
+                            #if($HC.influenza==0)
+                                No
+                            #else
+                                Si
+                            #end
+                        </p>
+                    </div>
+                    <div class="col text-center">
+                        <p class="fs-6"><strong>Antitetánica: </strong>
+                            #if($HC.tetanos==0)
+                                No
+                            #else
+                                Si
+                            #end
+                        </p>
+                    </div>
+                    <div class="col text-center">
+                        <p class="fs-6"><strong>Covid-19: </strong>
+                            #if($HC.covid19==0)
+                                No
+                            #else
+                                Si
+                            #end
+                        </p>
+                    </div>
+                </div>
+                <!-- Antecedentes traumaticos, alergias y cirugias -->
+                <div class="row rounded-pill bg-gradient" style="background-color: #ffe6e6;">
+                    <div class="col">
+                        <p class="fs-5 fw-bold text-dark text-center p-0 m-0">
+                            Traumatismos
+                        </p>
+                    </div>
+                    <div class="col">
+                        <p class="fs-5 fw-bold text-dark text-center p-0 m-0">
+                            Cirugias
+                        </p>
+                    </div>
+                    <div class="col">
+                        <p class="fs-5 fw-bold text-dark text-center p-0 m-0">
+                            Alergias
+                        </p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col text-center">
+                        #if($AT=="NO")
+                            <p class="fs-6">Sin antecedentes traumaticos.</p>
+                        #else
+                            #foreach($at in $AT)
+                                <div class="row text-center">
+                                    <div class="col">
+                                        <p class="fw-bold text-dark text-center">$at.descripcion</p>
+                                    </div>
+                                    
+                                    <div class="col">
+                                        <p class="text-dark text-center">$at.fecha</p>
+                                    </div>
+                                </div>
+                            #end
+                        #end
+                    </div>
+                    <div class="col text-center">
+                        #if($AQ=="NO")
+                            <p class="fs-6">Sin antecedentes quirurgicos.</p>
+                        #else
+                            #foreach($aq in $AQ)
+                                <div class="row text-center">
+                                    <div class="col">
+                                        <p class="fw-bold text-dark text-center">$aq.descripcion</p>
+                                    </div>
+                                    
+                                    <div class="col">
+                                        <p class="text-dark text-center">$aq.fecha</p>
+                                    </div>
+                                </div>
+                            #end
+                        #end
+                    </div>
+                    <div class="col text-center">
+                        #if($alergias=="NO")
+                            <p class="fs-6">Sin antecedentes quirurgicos.</p>
+                        #else
+                            #foreach($a in $alergias)
+                                <div class="row">
+                                    <div class="col text-center">
+                                        <p class="fw-bold text-dark text-center">$a.nombre</p>
+                                    </div>
+                                </div>
+                            #end
+                        #end
+                    </div>
+                </div>
+                <!-- Antecedentes ginecológicos y obstétricos -->
+                <div class="row rounded-pill bg-gradient" style="background-color: #ffe6e6;">
+                    <p class="fs-5 fw-bold text-dark text-center p-0 m-0">
+                        Antecedentes ginecológicos y obstétricos
+                    </p>
+                </div>
+                <div class="row">
+                    <div class="col text-center">
+                        <p class="fs-6"><strong>Menarca: </strong> $HC.ago.menarca</p>
+                    </div>
+                    <div class="col text-center">
+                        <p class="fs-6"><strong>Ritmo: </strong> $HC.ago.ritmo</p>
+                    </div>
+                    <div class="col text-center">
+                        <p class="fs-6"><strong>I. V. S. : </strong> $HC.ago.ivs</p>
+                    </div>
+                    <div class="col-4 text-center">
+                        <p class="fs-6"><strong>N° de compañeros sexuales: </strong> $coSe</p>
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <div class="col text-center">
+                        <p class="fs-6"><strong>G.: </strong> $HC.ago.gestaciones</p>
+                    </div>
+                    <div class="col text-center">
+                        <p class="fs-6"><strong>P.: </strong> $HC.ago.partos</p>
+                    </div>
+                    <div class="col text-center">
+                        <p class="fs-6"><strong>A.: </strong> $HC.ago.abortos</p>
+                    </div>
+                    <div class="col text-center">
+                        <p class="fs-6"><strong>C.: </strong> $HC.ago.ceareas</p>
+                    </div>
+                    <div class="col-3 text-center">
+                        <p class="fs-6"><strong>Ectópico: </strong> $HC.ago.ectopico</p>
+                    </div>
+                    <div class="col-3 text-center">
+                        <p class="fs-6"><strong>Molar: </strong> $HC.ago.molar</p>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <p class="fs-6"><strong>Padecimiento actual: </strong> $HC.ago.padecimientoActual</p>
+                </div>
+                <div id="datosDoctora_div">
+                    <br>
+                    <p class="text-center">_______________________________________</p>
+                    <p class="text-center">Dra. $ginecologa.nombres $ginecologa.apellidoPaterno $ginecologa.apellidoMaterno</p>
+                </div>
+            </div>
+
+            <div class="row" id="buttons_div">
+                <div class="col text-center">
+                    <button class="btn fw-bold btn-danger" id="btn_cancelar" type="button" onclick="verPaciente($paciente.idPaciente)">Cancelar</button>
+                </div>
+                <div class="col text-center">
+                    <button class="btn fw-bold text-light" id="btnImprimir" type="button" style="background-color: #20FC8F;">Imprimir</button>
+                </div>
+            </div>
+        </div>
+        <footer class="text-center mt-auto" style="background-color: #ffe6e6; height: 50px;" id="pie_div">
+            <p>Bosques de África #144-A, Colonia Bosques de Aragón<br>
+            Nezahualcóyotl, Estado de México</p>
+        </footer>
+    </body>
+    <script src='https://ginelife-mx.herokuapp.com/public/JS/HistoriaClinica.js'></script>
+    <script src='https://ginelife-mx.herokuapp.com/public/JS/Imprimir.js'></script>
+    <script src='https://ginelife-mx.herokuapp.com/public/JS/CerrarSesion.js'></script>
+    <script src='https://ginelife-mx.herokuapp.com/public/JS/Reloj.js'></script>
+    <script src='https://ginelife-mx.herokuapp.com/public/JS/Fecha.js'></script>
+</html>

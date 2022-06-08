@@ -1,4 +1,3 @@
-var txtMsg=document.getElementById('msg');
 var inputCorreo=document.getElementById('correo');
 var inputClave=document.getElementById('clave');
 
@@ -14,20 +13,19 @@ function acceder(e){
             .then(function (response) {
                 console.log(response.data);
                 if(response.data!='NO'){
-                    txtMsg.innerHTML="Acceso correcto.";
-                    alert('Redirigiendo.');
+                    alert('Acceso correcto.');
                     window.location.href="/ginelife";
                 }else{
-                    txtMsg.innerHTML="Acceso incorrecto.";
+                    alert('Error de correo y/o clave.');
                 }
             })
             .catch(function (error) {
                 console.log(error);
             });
         }else{
-            txtMsg.innerText="Por favor, escriba  su clave.";
+            alert("Por favor, escriba  su clave.");
         }
     }else{
-        txtMsg.innerText="Por favor, escriba  un correo electrónico.";
+        alert("Por favor, escriba  un correo electrónico.");
     }
 }
