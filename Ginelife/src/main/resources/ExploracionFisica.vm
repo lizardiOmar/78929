@@ -91,11 +91,9 @@
                                 <p class="fs-6 text-center"><strong>Lugar de nacimiento: </strong> $paciente.ciudadDeNacimiento, $paciente.entidadDeNacimiento </p>
                             </div>
                             <div class="col">
-                                <p class="fs-6  text-center"><strong>Fecha de nacimiento:</strong> $paciente.fechaDeNacimiento</p>
+                                <p class="fs-6  text-center"><strong>Fecha de nacimiento:</strong> $paciente.fechaDeNacimiento ($paciente.edad años)</p>
                             </div>
-                            <div class="col">
-                                <p class="fs-6  text-center"><strong>Edad: </strong> $paciente.edad años</p>
-                            </div>
+                            
                         </div>
                         <div class="row">
                             <div class="col text-center">
