@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset='utf-8'>
+        <title>Ginelife</title>
+        <meta name='Ginelife: citas' content='width=device-width, initial-scale=1'>
+        <!-- Bootstrap -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+        <!-- Axios -->
+        <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+        <!-- CSS -->
+        <link rel='stylesheet' type='text/css' media='screen' href='https://ginelife-mx.herokuapp.com/public/CSS/CitasMovil.css'>
+    </head>
+    <body class="d-flex flex-column" style="background-color: #ffcccc;" onload="mueveReloj()">
+        <div class="row text-center" id="top-nav">
+            <div class="col text-center">
+                <p class="text-center"><img src="https://ginelife-mx.herokuapp.com/public/IMG/Logo.png" alt="" width="85%" height="auto" ></p>
+            </div>
+            <div class="col-8 text-center">
+                <h1>Ginelife</h1>
+            </div>
+            <div class="col">
+                <input id="menu-toggle" type="checkbox"/>
+                <label class='menu-button-container' for="menu-toggle">
+                    <div class='menu-button'></div>
+                </label>
+                <ul class="menu">
+                    <li><a class="nav-link" href="https://ginelife-mx.herokuapp.com/ginelife" style="color: #996600;">Inicio</a></li>
+                    <li id="citasNav" style="background-color: #9e8080;"><a class="nav-link active" aria-current="page" href="" style="color: #262322;">Citas</a></li>
+                    <li id="pacientesNav">
+                        <a class="nav-link" href="https://ginelife-mx.herokuapp.com/pacientes" style="color: #996600;">Pacientes</a>
+                    </li>
+                    <li class="navbar-text bg-danger" id="salir">
+						<img src="https://ginelife-mx.herokuapp.com/public/IMG/Salir.png" alt="" width="auto">
+					</li>
+                </ul>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <span><a aria-current="page" class="text-decoration-none fw-bold pacientes_link">Citas</a></span>
+            </div>
+            <div class="col text-center">
+                <p>Dra. $ginecologa.nombres</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="row p-2 row text-center fw-bold" style="background-color: #ffe6e6;">
+                <div class="nav-item col" style="background-color: #ffcccc;"  id="tabNewCita">
+                    Nueva cita
+                </div>
+                <div class="nav-item col" id="tabMisCitas">
+                    Mis citas
+                </div>
+            </div>
+        </div>
+        <div class="row" style="overflow-y: scroll; height: 80vh;">
+            <div class="container" id="containerNewCita">
+                <div class="container-fluid">
+                    <br>
+                    <div class="row rounded-3 bg-gradient titulos">
+                        <h2>Agendar una cita</h2>
+                    </div>
+                    <br>
+                    <div class="row rounded-3 bg-gradient titulos">
+                        <div class="col-5">
+                            <select class="form-select fs-2" id="mes"></select>
+                        </div>
+                        <div class="col fs-1">
+                            <input class="form-check-input align-middle" type="radio" name="turno" id="matutino" value="matutino" checked>
+                            <label class="form-check-label align-middle" for="matutino">
+                                Matutino
+                            </label>
+                        </div>
+                        <div class="col fs-1">
+                            <input class="form-check-input align-middle" type="radio" name="turno" id="vespertino" value="vespertino">
+                            <label class="form-check-label align-middle" for="vespertino">
+                                Vespertino
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <div class="container-fluid m-2">
+                    <!-- Calendario -->
+                    <div class="row border border-1 mx-auto">
+                        <div class="col fs-3">
+                            <div class="row mx-auto dia" id="domingo">Domingo</div>
+                            <div class="row mx-auto  dia" id="1">-</div>
+                            <div class="row mx-auto  dia" id="8">-</div>
+                            <div class="row mx-auto  dia" id="15">-</div>
+                            <div class="row mx-auto  dia" id="22">-</div>
+                            <div class="row mx-auto  dia" id="29">-</div>
+                            <div class="row mx-auto  dia" id="36">-</div>
+                        </div>
+                        <div class="col fs-3">
+                            <div class="row mx-auto dia" id="lunes">Lunes</div>
+                            <div class="row mx-auto dia" id="2">-</div>
+                            <div class="row mx-auto dia" id="9">-</div>
+                            <div class="row mx-auto dia" id="16">-</div>
+                            <div class="row mx-auto dia" id="23">-</div>
+                            <div class="row mx-auto dia" id="30">-</div>
+                            <div class="row mx-auto dia" id="37">-</div>
+                        </div>
+                        <div class="col fs-3">
+                            <div class="row mx-auto dia" id="martes">Martes</div>
+                            <div class="row mx-auto  dia" id="3">-</div>
+                            <div class="row mx-auto  dia" id="10">-</div>
+                            <div class="row mx-auto  dia" id="17">-</div>
+                            <div class="row mx-auto  dia" id="24">-</div>
+                            <div class="row mx-auto  dia" id="31">-</div>
+                            <div class="row mx-auto  dia" id="38">-</div>
+                        </div>
+                        <div class="col fs-3">
+                            <div class="row mx-auto dia" id="miercoles">Miércoles</div>
+                            <div class="row mx-auto  dia" id="4">-</div>
+                            <div class="row mx-auto  dia" id="11">-</div>
+                            <div class="row mx-auto  dia" id="18">-</div>
+                            <div class="row mx-auto  dia" id="25">-</div>
+                            <div class="row mx-auto  dia" id="32">-</div>
+                            <div class="row mx-auto  dia" id="39">-</div>
+                        </div>
+                        <div class="col fs-3">
+                            <div class="row mx-auto dia" id="jueves">Jueves</div>
+                            <div class="row mx-auto  dia" id="5">-</div>
+                            <div class="row mx-auto  dia" id="12">-</div>
+                            <div class="row mx-auto  dia" id="19">-</div>
+                            <div class="row mx-auto  dia" id="26">-</div>
+                            <div class="row mx-auto  dia" id="33">-</div>
+                            <div class="row mx-auto  dia" id="40">-</div>
+                        </div>
+                        <div class="col fs-3">
+                            <div class="row mx-auto dia" id="viernes">Viernes</div>
+                            <div class="row mx-auto  dia" id="6">-</div>
+                            <div class="row mx-auto  dia" id="13">-</div>
+                            <div class="row mx-auto  dia" id="20">-</div>
+                            <div class="row mx-auto  dia" id="27">-</div>
+                            <div class="row mx-auto  dia" id="34">-</div>
+                            <div class="row mx-auto  dia" id="41">-</div>
+                        </div>
+                        <div class="col fs-3">
+                            <div class="row mx-auto dia" id="sabado">Sábado</div>
+                            <div class="row mx-auto  dia" id="7">-</div>
+                            <div class="row mx-auto  dia" id="14">-</div>
+                            <div class="row mx-auto  dia" id="21">-</div>
+                            <div class="row mx-auto  dia" id="28">-</div>
+                            <div class="row mx-auto  dia" id="35">-</div>
+                            <div class="row mx-auto  dia" id="42">-</div>
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <!-- Itinerario -->
+                <div class="row ">
+                    <h3 id="itinerario_text">-</h3>
+                    <br>
+                    <div class="row mx-auto fs-3">
+                        <div class="col border border-2 rounded-3 hr" id="1h">-</div>
+                        <div class="col border border-2 rounded-3 hr" id="2h">-</div>
+                        <div class="col border border-2 rounded-3 hr" id="3h">-</div>
+                        <div class="col border border-2 rounded-3 hr" id="4h">-</div>
+                        <div class="col border border-2 rounded-3 hr" id="5h">-</div>
+                        <div class="col border border-2 rounded-3 hr" id="6h">-</div>
+                        <div class="col border border-2 rounded-3 hr" id="7h">-</div>
+                        <div class="col border border-2 rounded-3 hr" id="8h">-</div>
+                        <div class="col border border-2 rounded-3 hr" id="9h">-</div>
+                        <div class="col border border-2 rounded-3 hr" id="10h">-</div>
+                    </div>
+                </div>
+                <br>
+                <br>
+                <!-- Botón para registrar cita -->
+                <div class="row p-2">
+                    <button type="button" class="btn btn-lg fw-bold fs-1" style="background-color: #6a6e6c; color: #262322;" id="agregar_cita">
+                        Agregar cita
+                    </button>
+                </div>
+            </div>
+            <div class="container" id="containerMisCitas" style="display: none;">
+                <div class="row rounded-3 bg-gradient titulos">
+                    <h2>Mis citas</h2>
+                </div>
+                <div class="row">
+                    <select class="form-select fs-1" id="citas_select">
+                        <option value="hoy">Hoy</option>
+                        <option value="semana">Esta semana</option>
+                        <option value="mes">Este mes</option>
+                        <option value="año">Este año</option>
+                        <option value="canceladas">Canceladas</option>
+                    </select>
+                </div>
+                <div class="row" style="overflow-y: scroll; height: 70vh;">
+                        <div class="container-fluid" id="citasHoyC" style="display: block;">
+                            <p class="text-center fs-1 fw-bold">$fechaHoy</p>
+                            #if($citasHoy!="NO")
+                                #foreach($cita in $citasHoy)
+                                <div class="row" style="background-color: #ffe6e6; box-shadow: 2px 2px 5px #000000; justify-content: center;">
+                                    <div class="col p-2">
+                                        <p class="text-center">
+                                            $cita.nombre
+                                        </p>
+                                        <p class="text-center fw-bold">
+                                            $cita.fecha
+                                        </p>
+                                        <p class="text-center">
+                                            $cita.hora
+                                        </p>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="container p-3">
+                                            <p class="text-center">
+                                                $cita.descripcion
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="col-2">
+                                        <div class="row p-4" style="height: 100%;">
+                                            <button class="btn btn-danger close" value="$cita.idCitas" id="$cita.idCitas" type="button" onclick="cancelarCita($cita.idCitas)">
+                                                <img src="https://ginelife-mx.herokuapp.com/public/IMG/trash-2.svg" alt="" width="90px">
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>   
+                                #end
+                            #else
+                                <p class="text-center fs-1">
+                                    Sin citas registradas para el dia de hoy.
+                                </p>
+                            #end
+                        </div>
+                        <div class="container" id="citasSemanaC"  style="display: none;">
+                            <p class="text-center fs-1 fw-bold">$fechasSemana</p>
+                            #if($citasSemana!="NO")
+                                #foreach($cita in $citasSemana)
+                                <div class="row" style="background-color: #ffe6e6; box-shadow: 2px 2px 5px #000000; justify-content: center;">
+                                    <div class="col p-2">
+                                        <p class="text-center">
+                                            $cita.nombre
+                                        </p>
+                                        <p class="text-center fw-bold">
+                                            $cita.fecha
+                                        </p>
+                                        <p class="text-center">
+                                            $cita.hora
+                                        </p>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="container p-3">
+                                            <p class="text-center">
+                                                $cita.descripcion
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="col-2">
+                                        <div class="row p-4" style="height: 100%;">
+                                            <button class="btn btn-danger close" value="$cita.idCitas" id="$cita.idCitas" type="button" onclick="cancelarCita($cita.idCitas)">
+                                                <img src="https://ginelife-mx.herokuapp.com/public/IMG/trash-2.svg" alt="" width="90px">
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>   
+                                #end
+                            #else
+                                <p class="text-center fs-1">
+                                    Sin citas registradas para esta semana.
+                                </p>
+                            #end
+                        </div>
+                        <div class="container" id="citasMesC"  style="display: none;">
+                            <p class="text-center fs-1 fw-bold">$fechasMes</p>
+                            #if($citasMes!="NO")
+                                #foreach($cita in $citasMes)
+                                <div class="row" style="background-color: #ffe6e6; box-shadow: 2px 2px 5px #000000; justify-content: center;">
+                                    <div class="col p-2">
+                                        <p class="text-center">
+                                            $cita.nombre
+                                        </p>
+                                        <p class="text-center fw-bold">
+                                            $cita.fecha
+                                        </p>
+                                        <p class="text-center">
+                                            $cita.hora
+                                        </p>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="container p-3">
+                                            <p class="text-center">
+                                                $cita.descripcion
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="col-2">
+                                        <div class="row p-4" style="height: 100%;">
+                                            <button class="btn btn-danger close" value="$cita.idCitas" id="$cita.idCitas" type="button" onclick="cancelarCita($cita.idCitas)">
+                                                <img src="https://ginelife-mx.herokuapp.com/public/IMG/trash-2.svg" alt="" width="90px">
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>      
+                                #end
+                            #else
+                                <p class="text-center fs-4">
+                                    Sin citas registradas para este mes.
+                                </p>
+                            #end
+                        </div>
+                        <div class="container" id="citasYearC"  style="display: none;">
+                            <p class="text-center fs-1 fw-bold">$fechasYear</p>
+                            #if($citasYear!="NO")
+                                #foreach($cita in $citasYear)
+                                <div class="row" style="background-color: #ffe6e6; box-shadow: 2px 2px 5px #000000; justify-content: center;">
+                                    <div class="col p-2">
+                                        <p class="text-center">
+                                            $cita.nombre
+                                        </p>
+                                        <p class="text-center fw-bold">
+                                            $cita.fecha
+                                        </p>
+                                        <p class="text-center">
+                                            $cita.hora
+                                        </p>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="container p-3">
+                                            <p class="text-center">
+                                                $cita.descripcion
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="col-2">
+                                        <div class="row p-4" style="height: 100%;">
+                                            <button class="btn btn-danger close" value="$cita.idCitas" id="$cita.idCitas" type="button" onclick="cancelarCita($cita.idCitas)">
+                                                <img src="https://ginelife-mx.herokuapp.com/public/IMG/trash-2.svg" alt="" width="90px">
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>   
+                                #end
+                            #else
+                                <p class="text-center fs-1">
+                                    Sin citas registradas para este año.
+                                </p>
+                            #end
+                        </div>
+                        <div class="container" id="canceladasC"  style="display: none;">
+                            #if($citasCanceladas!="NO")
+                                #foreach($cita in $citasCanceladas)
+                                <div class="row" style="background-color: #ffe6e6; box-shadow: 2px 2px 5px #000000; justify-content: center;">
+                                    <div class="col p-2">
+                                        <p class="text-center">
+                                            $cita.nombre
+                                        </p>
+                                        <p class="text-center fw-bold">
+                                            $cita.fecha
+                                        </p>
+                                        <p class="text-center">
+                                            $cita.hora
+                                        </p>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="container p-3">
+                                            <p class="text-center">
+                                                $cita.descripcion
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="col-2">
+                                        <div class="row p-4" style="height: 100%;">
+                                            <button class="btn btn-danger close" value="$cita.idCitas" id="$cita.idCitas" type="button" onclick="cancelarCita($cita.idCitas)">
+                                                <img src="https://ginelife-mx.herokuapp.com/public/IMG/trash-2.svg" alt="" width="90px">
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>   
+                                #end
+                            #else
+                                <p class="text-center fs-1">
+                                    Sin citas canceladas.
+                                </p>
+                            #end
+                        </div>
+                </div>
+            </div>
+        </div>
+        <div class="text-center container-fluid p-0 m-0" style="background: linear-gradient(to left, #ffcccc, #ffe6e6);">
+            <div class="row">
+                <div class="col" >
+                    <input id="fechaHoy" type="text" size="auto" disabled>
+                </div>
+                <form name="form_reloj" class="col">
+                    <input id="reloj" type="text" name="reloj" size="8" disabled>
+                </form>
+            </div>
+        </div>
+        <!-- The Modal -->
+        <div id="myModal" class="modal">
+            <!-- Modal content -->
+            <div class="modal-content">
+                <h2>Registrar una cita</h2>
+                <p id="fecha"></p>
+                <br>
+                <div class="input-group mb-3">
+                    <span class="input-group-text" id="basic-addon1">Nombre: </span>
+                    <input type="text" class="form-control" placeholder="Nombre" aria-label="Nombre" id="nombre" aria-describedby="basic-addon1">
+                </div>
+                <div class="input-group">
+                    <span class="input-group-text">Descripción:</span>
+                        <textarea class="form-control" aria-label="With textarea" id="descripcion"></textarea>
+                </div>
+                <br>
+                <p id="msgModal"></p>
+                <br>
+                <div class="row">
+                <button type="button" class="btn btn-success col" id="crearCita">Crear cita</button>
+                <button type="button" class="btn btn-danger col close">Cancelar</button>
+            </div>
+        </div>
+        <script src='https://ginelife-mx.herokuapp.com/public/JS/Citas.js'></script>
+        <script src='https://ginelife-mx.herokuapp.com/public/JS/CerrarSesion.js'></script>
+        <script src='https://ginelife-mx.herokuapp.com/public/JS/Reloj.js'></script>
+        <script src='https://ginelife-mx.herokuapp.com/public/JS/Fecha.js'></script>
+        <script src='https://ginelife-mx.herokuapp.com/public/JS/CancelarCita.js'></script>
+        <script src='https://ginelife-mx.herokuapp.com/public/JS/Citas/FiltroCitas.js'></script>
+        <script src='https://ginelife-mx.herokuapp.com/public/JS/Citas/TabsCitasMovil.js'></script>
+    </body>

@@ -2,17 +2,18 @@
 <html lang="es">
     <head>
         <meta charset='utf-8'>
-        <title>Ginelife: Iniciar sesión</title>
-        <meta name='Ginelife: Iniciar sesión' content='width=device-width, initial-scale=1'>
+        <title>Iniciar sesión</title>
+        <meta name='Iniciar sesión' content='width=device-width, initial-scale=1'>
         <!-- Bootstrap -->
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
         <!-- Axios -->
         <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
         <!-- CSS -->
-        <link rel='stylesheet' type='text/css' media='screen' href='https://ginelife-mx.herokuapp.com/public/CSS/Login.css'>
+        <link rel='stylesheet' type='text/css' media='screen' href='https://ginelife-mx.herokuapp.com/public/CSS/LoginDesktop.css'>
+        <link rel='stylesheet' type='text/css' media='screen' href='https://ginelife-mx.herokuapp.com/public/CSS/Global.css'>
     </head>
-    <body  class="d-flex flex-column min-vh-100 text-center">
+    <body>
         <div class="container d-flex align-items-center justify-content-center" id="divPrincipal">
             <div class="rounded-2" id="divForm">
                 <div class="row justify-content-center">
@@ -21,40 +22,41 @@
                 <div class="row text-center">
                     <p class="fs-5" style="color:#996600">Tu salud es nuestra prioridad.</p>
                 </div>
-                <div class="row">
-                    <p class="fw-bold fs-6">Correo electrónico:</p>
-                </div>
-                <div class="row justify-content-center">
-                    <input type="text" id="correo" name="correo" required>
-                </div>
-                <div class="row ">
-                    <p class="fw-bold fs-6">Contraseña:</p>
-                </div>
-                <div class="row justify-content-center">
-                    <input type="password" id="clave" name="clave" required>
-                </div>
+                <form id="formLogin">
+                    <div class="row text-center">
+                        <p class="fw-bold fs-6">Correo electrónico:</p>
+                    </div>
+                    <div class="row justify-content-center">
+                        <input type="text" id="correo" name="correo" required>
+                    </div>
+                    <div class="row text-center">
+                        <p class="fw-bold fs-6">Contraseña:</p>
+                    </div>
+                    <div class="row justify-content-center">
+                        <input type="password" id="clave" name="clave" required>
+                    </div>
+                </form>
                 <div class="row justify-content-center">
                     <button type="button" id="acceder" class="btn m-3 fw-bold" style="width: 50%; background-color: #20FC8F;">  
                         ACCEDER
                     </button>
                 </div>
-                <div class="row m-2">
+                <div class="row m-2 text-center">
                     <p class="fs-6">¿Olvidaste tu contraseña? Haz click <a href="mailto: heandsheofi@gmail.com?subject=Recuperar contraseña&body=Olvidé mi contraseña.">aqui</a></p>
                 </div>
             </div>
         </div>
-        <footer  class="text-center" id="direccion" style="background-color: #ffe6e6;">
-            <div class="row m-0 p-0">
+        <footer  class="text-center" id="direccion">
+            <div class="row p-1 m-1">
                 <div class="col">
                     <p>
-                        Bosques de África #144-A, Colonia Bosques de Aragón
+                        Calle Número, Colonia
                         <br>
-                        Nezahualcóyotl, Estado de México
+                        Municipio, Entidad federativa
                     </p>
                 </div>
             </div>
         </footer>
     </body>
-    <script src='https://ginelife-mx.herokuapp.com/public/JS/SizeScreen.js'></script>
     <script src='https://ginelife-mx.herokuapp.com/public/JS/Login.js'></script>
 </html>

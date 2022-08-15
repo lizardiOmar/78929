@@ -1,0 +1,15 @@
+#divPrincipal{
+    width:100%; 
+    height:85vh;
+}
+#logo{
+    width: 30vh;
+}
+#divForm{
+    width:50%; 
+    height: 90%;
+}
+#correo, #clave{
+    border: none;
+    width: 50%;
+}

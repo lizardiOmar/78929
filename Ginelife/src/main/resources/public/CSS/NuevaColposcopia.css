@@ -1,0 +1,93 @@
+.pacientes_link{
+    color:#262322;
+}
+.pacientes_link:hover{
+    color:#262322;
+}
+.label-frm{
+    background-color: #ffe6e600;
+    border: none;
+    
+}
+.texto-perfil:disabled{
+    border: none;
+    background-color: #ffffff57;
+}
+#reloj, #fechaHoy{
+    border: none;
+}
+.preloader {
+  width: 30px;
+  height: 30px;
+  border: 10px solid #eee;
+  border-top: 10px solid #666;
+  border-radius: 50%;
+  margin-right: 10px;
+  animation-name: girar;
+  animation-duration: 2s;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
+  display: flex;
+}
+@keyframes girar {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+/* The Modal (background) */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100vh; /* Full height */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */ 
+  }
+  
+  /* Modal Content/Box */
+  .modal-content {
+    background-color: #ffe6e6;
+    margin: 5% auto; /* 15% from the top and centered */
+    padding: 20px;
+    border: 1px solid #888;
+    box-shadow: 2px 2px 10px 4px #fefefe;
+    width: 90%;
+  }
+  .screenshot-image {
+    width: 150px;
+    height: 90px;
+    border-radius: 4px;
+    border: 2px solid whitesmoke;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.1);
+    position: absolute;
+    bottom: 5px;
+    left: 10px;
+    background: white;
+}
+
+.display-cover {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 70%;
+    margin: 5% auto;
+    position: relative;
+}
+
+#video {
+    width: 80%;
+    background: rgba(0, 0, 0, 0.2);
+}
+
+
+/*video, canvas {
+    /*transform: rotateY(180deg);*/
+    /*-webkit-transform:rotateY(180deg);  Safari and Chrome */
+    /* -moz-transform:rotateY(180deg); Firefox */
+ /* }*/

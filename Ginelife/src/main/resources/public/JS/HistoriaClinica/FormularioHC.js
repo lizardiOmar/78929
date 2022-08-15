@@ -46,7 +46,7 @@ var menarca, ritmo, ivs, comSex, gestaciones, partos, abortos, cesareas, ectopic
 var idPaciente=btnNext.value;
 
 function nextStep() {
-    if (progress.value==100) {
+    if (progress.value==100) {  
         modalLoad.style.display = "flex";
         modalLoad.style.alignItems = "center";
         modalLoad.style.justifyContent = "center";
@@ -121,7 +121,7 @@ function nextStep() {
                                         }).then(function (response) {
                                             if(response.data==='SI'){
                                                 msgLoadingHC.innerHTML="Antecedentes gineco obstetricos agregados.";
-                                                if(traumas.length==0){
+                                                if(traumas.length<1){
                                                     msgLoadingHC.innerHTML="No hay traumatismos que agregar.";
                                                 }else{
                                                     let c=1;
@@ -142,7 +142,7 @@ function nextStep() {
                                                         })
                                                         c+=1;
                                                     })
-                                                    if(cirugias.length==0){
+                                                    if(cirugias.length<1){
                                                         msgLoadingHC.innerHTML="No hay cirugias que agregar.";
                                                     }else{
                                                         let c=1;
@@ -164,7 +164,7 @@ function nextStep() {
                                                             c+=1;
                                                         })
                                                     }
-                                                    if(alergias.length==0){
+                                                    if(alergias.length<1){
                                                         msgLoadingHC.innerHTML="No hay alergias que agregar.";
                                                     }else{
                                                         let c=1;
@@ -185,13 +185,15 @@ function nextStep() {
                                                             c+=1;
                                                         })
                                                     }
-                                                    msgLoadingHC.innerHTML="Registro de hitoria clínica finalizado con éxito.";
-
-                                                    document.location.href="https://ginelife-mx.herokuapp.com/historiaClinica/"+idPaciente;
+                                                    
                                                 }
                                             }else{
                                                 msgLoadingHC.innerHTML=response.data;
                                             }
+                                        }).finally(function(response){
+                                            msgLoadingHC.innerHTML="Registro de hitoria clínica finalizado con éxito.";
+
+                                            document.location.href="https://ginelife-mx.herokuapp.com/historiaClinica/"+idPaciente;
                                         })
                                     }else{
                                         msgLoadingHC.innerHTML=response.data;
@@ -213,14 +215,6 @@ function nextStep() {
                 }
             }
         });
-        
-        
-        
-        
-        
-        
-       
-       
     }else{
         btnNext.innerHTML="Siguiente";
         btnPrev.innerHTML="Anterior";

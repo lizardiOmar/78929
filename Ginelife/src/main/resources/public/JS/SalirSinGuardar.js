@@ -1,7 +1,5 @@
-
 var bPreguntar = false;
 window.onbeforeunload = preguntarAntesDeSalir;
-
 function preguntarAntesDeSalir () {
 	if (document.getElementById('btnNext').disabled=="true") {
 		var bPreguntar = false;

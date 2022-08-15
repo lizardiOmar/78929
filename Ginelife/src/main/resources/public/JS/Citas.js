@@ -77,7 +77,6 @@ const today=intlForWeeks.format(new Date(anio_hoy, mes_hoy, dia_hoy));
 llenar_calendario(mes_hoy)
 //Llenar calendario de acuerdo al mes
 function llenar_calendario(mes){
-	let dia_1_index = new Date(anio_hoy, mes, 1).getDay();
 	let dia_1_text=intlForWeeks.format(new Date(anio_hoy, mes, 1));
 	let dia_ultimo = new Date(anio_hoy, mes+1, 0).getDate();
 	let dias = [...Array(dia_ultimo).keys()];
@@ -87,7 +86,6 @@ function llenar_calendario(mes){
         document.getElementById(i).style.backgroundColor="#ffcccc";
 	}
 	switch (dia_1_text) {
-		
 		case 'domingo':
 			document.getElementById('1').innerHTML='1';
 			document.getElementById('1').value='1';
@@ -218,7 +216,6 @@ function llenar_calendario(mes){
     r_cita.style.backgroundColor="#6a6e6c";
 }
 function getDia(e){
-	
 	if(horaS!=0){
 		if(document.getElementById(horaS_id)!=null){
 			document.getElementById(horaS_id).style.backgroundColor="#ffcccc";
@@ -242,13 +239,11 @@ function getDia(e){
 		setHorasVespertino();
 	}
     consultarItinerarioFecha();
-    
 }
 function getHora(e){
 	if(diaS==0){
 		alert("primero seleccione un día del calendario.");
 	}else{
-		
 		if (e.srcElement.style.backgroundColor!="rgb(120, 119, 104)") {
 			
 			if(horaS_id==0){
@@ -265,7 +260,8 @@ function getHora(e){
 			alert("Horario no disponible.")
 		}		
 	}
-}//Agregar funciones e inicializar horas en Matutino
+}
+//Agregar funciones e inicializar horas en Matutino
 var hr=9;
 for(let i=1;i<11;i++){
     let h=i+'h';
@@ -287,44 +283,36 @@ function setHorasMatutino(e) {
     var hr=9;
     for(let i=1;i<11;i++){
         let h=i+'h';
-        var quo = Math.floor(i/2);
         var rem = i%2;
-        
         if(rem!=0){
             document.getElementById(h).innerHTML=hr+":00";
         }else{
             document.getElementById(h).innerHTML=hr+":30";
             hr=hr+1;
         }
-        
         document.getElementById(h).style.backgroundColor="#ffcccc";
-		
-		
     }
 	consultarItinerarioFecha();
 }
+
 document.getElementById('vespertino').addEventListener('click', setHorasVespertino);
 function setHorasVespertino(e) {
     var hr=14;
     for(let i=1;i<11;i++){
         let h=i+'h';
-        var quo = Math.floor(i/2);
         var rem = i%2;
-        
         if(rem!=0){
             document.getElementById(h).innerHTML=hr+":00";
         }else{
             document.getElementById(h).innerHTML=hr+":30";
             hr=hr+1;
         }
-        
         document.getElementById(h).style.backgroundColor="#ffcccc";
-		
     }
 	consultarItinerarioFecha();
 }
+
 function consultarItinerarioFecha(){
-	
 	let index_mes=select_mes[select_mes.selectedIndex].value;
 	mesAuxi=parseInt(index_mes)+1;
 	let fechaIt=anio_hoy+'-'+ mesAuxi +'-'+ diaS;
@@ -332,10 +320,8 @@ function consultarItinerarioFecha(){
 	axios.get('/itinerario?fecha='+fechaIt).then(function (response) {
 		var citasDia=response.data.itinerario;
 		console.log(citasDia);
-		
 		for(let i=1;i<11;i++){
 			let h=i+'h';
-			
 			if(citasDia!="NO"){
 				citasDia.forEach(cita => {
 					if(document.getElementById(h).innerHTML+":00"==cita.hora){
@@ -343,8 +329,6 @@ function consultarItinerarioFecha(){
 					}
 				});
 			}
-			
-			
 		}
 	});
 }

@@ -1,15 +1,52 @@
-#logo{
-    width: 200px;
+body{
+    background-color: #ffcccc;
 }
-#correo, #clave{
-    border: none;
+#divPrincipal{
+    width:100%; 
+    height:85vh;
 }
-#direccion{
-    width: 100%;
-    position: absolute;
-    bottom: 0px;
+@media only screen
+  and (min-device-width: 721px){
+    #logo{
+        width: 200px;
+    }
+    #correo, #clave{
+        border: none;
+    }
+    #direccion{
+        width: 100%;
+        position: absolute;
+        bottom: 0px;
+    }
+    #horaAhora, #fechaHoy{
+        border: none;
+        background-color: rgba(240, 248, 255, 0);
+    }
+    #divForm{
+        background-color: #ffe6e6; 
+        width:50%; 
+        height: 90%;
+    }
+    #clave, #correo{
+        width: 50%;
+    }
 }
-#horaAhora, #fechaHoy{
-    border: none;
-    background-color: rgba(240, 248, 255, 0);
+@media only screen
+  and (max-device-width: 720px){
+    *{
+        font-size: 2vh;
+    }
+    #logo{
+        width: 25vh;
+    }
+    #divForm{
+        background-color: #ffe6e6; 
+        width:90%; 
+        height: 90%;
+    }
+    #clave, #correo{
+        width: 80%;
+        height: 3vh;
+    }
+
 }

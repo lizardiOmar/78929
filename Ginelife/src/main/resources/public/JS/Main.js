@@ -1,10 +1,10 @@
-btnCitasHoy=document.getElementById("btnCitasHoy");
+var btnCitasHoy=document.getElementById("btnCitasHoy");
 btnCitasHoy.addEventListener("click", mostrarCitasHoy);
-btnCitasSemana=document.getElementById("btnCitasSemana");
+var btnCitasSemana=document.getElementById("btnCitasSemana");
 btnCitasSemana.addEventListener("click", mostrarCitasSemana);
 
-containerHoy=document.getElementById("containerHoy");
-containerSemana=document.getElementById("containerSemana");
+var containerHoy=document.getElementById("containerHoy");
+var containerSemana=document.getElementById("containerSemana");
 
 function mostrarCitasHoy() {
     btnCitasHoy.style.backgroundColor="#ffcccc";
@@ -31,7 +31,12 @@ btnCitasHoy.style.color="#262322";
 btnCitasSemana.style.color="#996600";
 
 var btnAgregarPaciente=document.getElementById('agregarPaciente');
+var citasCard=document.getElementById('citasCard');
 btnAgregarPaciente.addEventListener('click', agregarPaciente)
 function agregarPaciente() {
     window.location.href="/nuevoPaciente"
 }
+
+citasCard.addEventListener('click', function() {
+    window.location.href="/citas"
+})

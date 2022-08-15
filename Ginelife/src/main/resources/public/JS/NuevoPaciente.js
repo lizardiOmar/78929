@@ -10,13 +10,37 @@ axios.get('https://www.gob.mx/vun/estados?filter[order]=nombre%20ASC').then(func
         selectEstado.appendChild(option);
     });
 });
-const btnRegistrar=document.getElementById('btnRegistrar');
+
 const msg=document.getElementById('msg');
 
 const inputNombres=document.getElementById('nombres');
 const inputApellidoP=document.getElementById('apellidoPaterno');
 const inputApellidoM=document.getElementById('apellidoMaterno');
+const inputCalle=document.getElementById('calle');
+const inputNumero=document.getElementById('numero');
+const inputCP=document.getElementById('cp');
+const inputEdad=document.getElementById('edad');
+const inputDN=document.getElementById('dN');
+const inputMN=document.getElementById('mN');
+const inputAN=document.getElementById('aN');
+const inputEstadoCivil=document.getElementById('estadoCivil');
+const inputOcupacion=document.getElementById('ocupacion');
+const inputEscolaridad=document.getElementById('escolaridad');
+const inputCiudadN=document.getElementById('ciudadN');
+const inputEntidadN=document.getElementById('estadoNacimiento');
+const inputTelefono=document.getElementById('telefono');
+const inputCorreo=document.getElementById('correo');
+const inputMunicipio=document.getElementById('municipio');
+const inputColonia=document.getElementById('colonia');
+
+var txtMunicipio, txtColonia;
+var txtCorreo, txtTelefono;
+var txtEntidad, txtCiudad;
+var txtEstadoCivil, txtOcupacion, txtEscolaridad;
+var txtCalle, txtNumero, txtCP;
 var txtNombres, txtApellidoP, txtApellidoM;
+var txtEdad, txtDN, txtMN, txtAN, txtFechaN;
+
 function getNombres() {
     txtNombres=inputNombres.value;
 }
@@ -26,11 +50,7 @@ function getApellidoP() {
 function getApellidoM() {
     txtApellidoM=inputApellidoM.value;
 }
-const inputEdad=document.getElementById('edad');
-const inputDN=document.getElementById('dN');
-const inputMN=document.getElementById('mN');
-const inputAN=document.getElementById('aN');
-var txtEdad, txtDN, txtMN, txtAN, txtFechaN;
+
 function getEdad() {
     if(inputEdad.value<110 & inputEdad.value>15){
         txtEdad=inputEdad.value;
@@ -50,41 +70,24 @@ function getAN() {
         txtAN=inputAN.value;
     }
 }
-const inputEstadoCivil=document.getElementById('estadoCivil');
-const inputOcupacion=document.getElementById('ocupacion');
-const inputEscolaridad=document.getElementById('escolaridad');
-var txtEstadoCivil, txtOcupacion, txtEscolaridad;
 function getOcupacion() {
     txtOcupacion=inputOcupacion.value;
 }
-const inputCiudadN=document.getElementById('ciudadN');
-const inputEntidadN=document.getElementById('estadoNacimiento');
-var txtEntidad, txtCiudad;
 function getCiudadN(){
     txtCiudad=inputCiudadN.value;
 }
-const inputTelefono=document.getElementById('telefono');
-const inputCorreo=document.getElementById('correo');
-var txtCorreo, txtTelefono;
 function getCorreo() {
     txtCorreo=inputCorreo.value;
 }
 function getTelefono() {
     txtTelefono=inputTelefono.value;
 }
-const inputMunicipio=document.getElementById('municipio');
-const inputColonia=document.getElementById('colonia');
-var txtMunicipio, txtColonia;
 function getMunicipio() {
     txtMunicipio=inputMunicipio.value;
 }
 function getColonia() {
     txtColonia=inputColonia.value;
 }
-const inputCalle=document.getElementById('calle');
-const inputNumero=document.getElementById('numero');
-const inputCP=document.getElementById('cp');
-var txtCalle, txtNumero, txtCP;
 function getCalle() {
     txtCalle=inputCalle.value;
 }
@@ -94,6 +97,8 @@ function getNumero() {
 function getCP() {
     txtCP=inputCP.value;
 }
+
+const btnRegistrar=document.getElementById('btnRegistrar');
 btnRegistrar.addEventListener('click', registrar);
 function registrar(e) {
     txtMN = inputMN.options[inputMN.selectedIndex].value;
@@ -240,6 +245,7 @@ function registrar(e) {
         }
     }
 }
+
 window.addEventListener("beforeunload", function (e) {
     if(btnRegistrar.disabled != true){
         var confirmationMessage = "\o/";

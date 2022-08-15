@@ -10,7 +10,7 @@
         <!-- Axios -->
         <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
         <!-- CSS -->
-        <link rel='stylesheet' type='text/css' media='screen' href='public/CSS/Citas.css'>
+        <link rel='stylesheet' type='text/css' media='screen' href='https://ginelife-mx.herokuapp.com/public/CSS/Citas.css'>
     </head>
     <body class="d-flex flex-column min-vh-100" style="background-color: #ffcccc;" onload="mueveReloj()">
         <!-- Barra de navegación -->
@@ -365,30 +365,29 @@
             Nezahualcóyotl, Estado de México</p>
         </footer>
         <!-- The Modal -->
-				<div id="myModal" class="modal">
-
-                    <!-- Modal content -->
-                    <div class="modal-content">
-                      <h2>Registrar una cita</h2>
-                      <p id="fecha"></p>
-                      <br>
-                      <div class="input-group mb-3">
-                            <span class="input-group-text" id="basic-addon1">Nombre: </span>
-                            <input type="text" class="form-control" placeholder="Nombre" aria-label="Nombre" id="nombre" aria-describedby="basic-addon1">
-                      </div>
-                      <div class="input-group">
-                            <span class="input-group-text">Descripción:</span>
-                            <textarea class="form-control" aria-label="With textarea" id="descripcion"></textarea>
-                      </div>
-                      <br>
-                      <p id="msgModal"></p>
-                      <br>
-                      <div class="row">
-                            <button type="button" class="btn btn-success col" id="crearCita">Crear cita</button>
-                          <button type="button" class="btn btn-danger col close">Cancelar</button>
-                      </div>
-                    </div>
-              </div>
+        <div id="myModal" class="modal">
+            <!-- Modal content -->
+            <div class="modal-content">
+                <h2>Registrar una cita</h2>
+                <p id="fecha"></p>
+                <br>
+                <div class="input-group mb-3">
+                    <span class="input-group-text" id="basic-addon1">Nombre: </span>
+                    <input type="text" class="form-control" placeholder="Nombre" aria-label="Nombre" id="nombre" aria-describedby="basic-addon1">
+                </div>
+                <div class="input-group">
+                    <span class="input-group-text">Descripción:</span>
+                        <textarea class="form-control" aria-label="With textarea" id="descripcion"></textarea>
+                </div>
+                <br>
+                <p id="msgModal"></p>
+                <br>
+                <div class="row">
+                <button type="button" class="btn btn-success col" id="crearCita">Crear cita</button>
+                <button type="button" class="btn btn-danger col close">Cancelar</button>
+            </div>
+        </div>
+    </div>
         <script src='https://ginelife-mx.herokuapp.com/public/JS/Citas.js'></script>
         <script src='https://ginelife-mx.herokuapp.com/public/JS/CerrarSesion.js'></script>
         <script src='https://ginelife-mx.herokuapp.com/public/JS/Reloj.js'></script>
