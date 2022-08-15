@@ -44,6 +44,7 @@ import mx.ginelife.db.obj.ExploracionFisica;
 import mx.ginelife.db.obj.Ginecologa;
 import mx.ginelife.db.obj.HistoriaClinica;
 import mx.ginelife.db.obj.Paciente;
+import mx.ginelife.db.obj.Pantalla;
 import mx.ginelife.db.obj.VwHistoriaClinica;
 
 
@@ -57,6 +58,7 @@ public class App {
         init();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         path("/", () -> {
+
             //POST: Iniciar sesión e iniciar cookie en el servidor
             post("login", (req, res) -> {
                 Gson gson=new Gson();
@@ -67,9 +69,31 @@ public class App {
                     req.session().attribute("correo", correo);
                     req.session().maxInactiveInterval(1800);
                     req.session(true);
+                    //System.out.println(req.cookie("dispositivo"));
                     return "SI";
                 } 
                 return "NO";
+            });
+            //POST: tamaño de pantalla
+            post("pantalla", (req, res) -> {
+                //Ver info
+                Gson gson=new Gson();
+                Pantalla aux=gson.fromJson(req.body(), Pantalla.class);
+                System.out.println(aux.toString());
+                int h=Integer.parseInt(aux.getHeight());
+                int w=Integer.parseInt(aux.getWidth());
+                System.out.println("Relación height/widht: "+h/w);
+                if(h<w){
+                    System.out.println("Pantalla horizontal.");
+                }else{
+                    System.out.println("Pantalla vertical.");
+                }
+                if(w<720){
+                    res.cookie("dispositivo", "movil");  
+                }else{
+                    res.cookie("dispositivo", "escritorio"); 
+                }
+                return aux.toString();
             });
             //POST: Cerrar sesión y  borrar cookie en el servidor
             post("logout", (req, res)->{
@@ -81,6 +105,7 @@ public class App {
                     return "ERROR";
                 }
             });
+
             //GET: Mostrar plantilla de LOGIN
             get("", (req, res) -> {
                 Map<String, Object> model = new HashMap<>();
@@ -88,7 +113,16 @@ public class App {
                 Connection c=Conexion.getConexion();
                 String vista="/mantenimiento.vm";
                 if(c!=null){
-                    vista="/login.vm";
+                    if(req.cookie("dispositivo")==null){
+                        vista="/Loader.vm";
+                    }else{
+                        if("movil".equals(req.cookie("dispositivo"))){
+                            vista="/LoginMovil.vm";
+                        }
+                        if("escritorio".equals(req.cookie("dispositivo"))){
+                            vista="/LoginDesktop.vm";
+                        }
+                    }
                     c.close();
                 }
                 return new ModelAndView(model, vista);
@@ -97,7 +131,9 @@ public class App {
             get("ginelife", (req, res) -> {
                 Map<String, Object> model = new HashMap<>();
                 String vista="/Main.vm";
-                
+                if(req.cookie("dispositivo").equals("movil")){
+                    vista="/MainMovil.vm";
+                }
                 Calendar calendar = Calendar.getInstance();
                 System.out.println(calendar.get(Calendar.HOUR_OF_DAY));
                 calendar.add(Calendar.HOUR, -5); 
@@ -120,12 +156,11 @@ public class App {
                         model.put("citasHoy", "NO");
                     }
                     String fechaHoy=sdf.format(calendar.getTime());
-                    calendar.set(Calendar.DAY_OF_MONTH, Calendar.DAY_OF_MONTH+7);
+                    calendar.add(Calendar.DAY_OF_YEAR, 8);
                     calendar.add(Calendar.HOUR, -5); 
                     String fechaSemana=sdf.format(calendar.getTime());
                     citasSemanaAux=CitaDAO.getCitasByDateRange(fechaHoy, fechaSemana);
                     if(citasSemanaAux!=null){
-                        //model.put("citasHoy", citasHoy);
                         List <Cita> citasSemana=new ArrayList<>();
                         for (Cita c : citasSemanaAux) {
                             if(c.getIdGinecologa()==doctora.getIdGinecologa()){
@@ -137,8 +172,6 @@ public class App {
                         } else {
                             model.put("citasSemana", "NO");
                         }
-                    }else{
-                        model.put("citasSemana", "NO");
                     }
                 }else{
                     vista="/NoSesion.vm";
@@ -149,6 +182,9 @@ public class App {
             get("citas", (req, res) -> {
                 Map<String, Object> model = new HashMap<>();
                 String vista="/citas.vm";
+                if(req.cookie("dispositivo").equals("movil")){
+                    vista="/CitasMovil.vm";
+                }
                 Ginecologa ginecologa=GinecologaDAO.getDoctoraByCorreo(req.session().attribute("correo"));
                 Calendar calendar = Calendar.getInstance();
                 calendar.add(Calendar.HOUR, -5);
@@ -240,7 +276,7 @@ public class App {
                     } else {
                         model.put("citasCanceladas", "NO"); 
                     }
-
+                    
                 }else{
                     vista="/NoSesion.vm";
                 }
@@ -259,6 +295,26 @@ public class App {
             get("pacientes", (req, res) -> {
                 Map<String, Object> model = new HashMap<>();
                 String vista="/Pacientes.vm";
+                List <Paciente> pacientes=null;
+                
+                if(req.session().attribute("correo")==null){
+                    vista="/NoSesion.vm";
+                }else{
+                    Ginecologa ginecologa=GinecologaDAO.getDoctoraByCorreo(req.session().attribute("correo"));
+                    model.put("ginecologa", ginecologa);
+                    pacientes=PacienteDAO.getPacientessByGinecologa(GinecologaDAO.getDoctoraByCorreo(req.session().attribute("correo")).getIdGinecologa());
+                    if (pacientes!=null) {
+                        model.put("pacientes", pacientes);
+                    } else {
+                        model.put("pacientes", "NO");
+                    }
+                }
+                return new ModelAndView(model, vista);
+            }, new VelocityTemplateEngine());
+            //Colposcopia
+            get("colpos", (req, res) -> {
+                Map<String, Object> model = new HashMap<>();
+                String vista="/NuevaColposcopia.vm";
                 List <Paciente> pacientes=null;
                 
                 if(req.session().attribute("correo")==null){
@@ -311,26 +367,6 @@ public class App {
                 }
                 return new ModelAndView(model, vista);
             }, new VelocityTemplateEngine());
-            //Pacientes
-            /*
-            get("agregarHistoriaClinica/:idPaciente", (req, res) -> {
-                Map<String, Object> model = new HashMap<>();
-                String vista="/NuevaHistoriaClinica.vm";
-                if(req.session().attribute("correo")==null){
-                    vista="/NoSesion.vm";
-                }else{
-                    Ginecologa ginecologa=GinecologaDAO.getDoctoraByCorreo(req.session().attribute("correo"));
-                    ginecologa.setIdGinecologa(0);
-                    model.put("ginecologa", ginecologa);
-                    Paciente paciente=PacienteDAO.getPacienteById(Integer.parseInt(req.params(":idPaciente")));
-                    if (paciente!=null) {
-                        model.put("paciente", paciente);
-                    }else{
-                        model.put("paciente", "verifique sus datos.");
-                    }
-                }
-                return new ModelAndView(model, vista);
-            }, new VelocityTemplateEngine()); */
             //Pacientes
             get("agregarExploracionFisica/:idPaciente", (req, res) -> {
                 Map<String, Object> model = new HashMap<>();
